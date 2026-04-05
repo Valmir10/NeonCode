@@ -1,0 +1,150 @@
+/* ===========================
+   Interactive Demo - Mini Editor
+   =========================== */
+
+.demo {
+  max-width: 700px;
+  width: 90%;
+  margin: 0 auto;
+  padding: var(--spacing-2xl) var(--spacing-lg);
+}
+
+.heading {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.editor {
+  background: rgba(10, 10, 20, 0.9);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.editorHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: rgba(20, 20, 40, 0.8);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dotRed {
+  background: #ff5f56;
+}
+.dotYellow {
+  background: #ffbd2e;
+}
+.dotGreen {
+  background: #27c93f;
+}
+
+.fileName {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-left: var(--spacing-sm);
+}
+
+.inputArea {
+  display: flex;
+  align-items: stretch;
+}
+
+.lineNumbers {
+  padding: var(--spacing-md) var(--spacing-sm);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-align: right;
+  user-select: none;
+  border-right: 1px solid var(--color-border);
+  min-width: 40px;
+}
+
+.textarea {
+  flex: 1;
+  padding: var(--spacing-md);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-neon-lime);
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  min-height: 80px;
+  line-height: 1.6;
+  caret-color: var(--color-neon-cyan);
+}
+
+.textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.submitRow {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.runBtn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: var(--spacing-xs) var(--spacing-lg);
+  background: var(--color-neon-cyan);
+  color: var(--color-bg-primary);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all var(--transition-fast);
+}
+
+.runBtn:hover {
+  box-shadow: 0 0 15px rgba(0, 255, 245, 0.5);
+}
+
+.response {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: rgba(10, 10, 20, 0.8);
+  border: 1px solid var(--color-neon-magenta);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-neon-magenta);
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.15);
+  animation: fadeIn 0.3s ease;
+}
+
+.responseLabel {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--spacing-xs);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,13 @@
+/* ===========================
+   Footer
+   =========================== */
+
+.footer {
+  padding: var(--spacing-xl) var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  letter-spacing: 1px;
+}
