@@ -5,7 +5,7 @@ import styles from './RegistrationPage.module.css';
 
 interface RegistrationPageProps {
   onBack: () => void;
-  onLogin: () => void;
+  onLogin: (username?: string) => void;
 }
 
 export function RegistrationPage({ onBack, onLogin }: RegistrationPageProps) {

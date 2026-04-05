@@ -2,22 +2,31 @@ import { useState } from 'react';
 import './styles/globals.css';
 import { HomePage } from './pages/Landing/HomePage';
 import { RegistrationPage } from './pages/Registration/RegistrationPage';
+import { MainPage } from './pages/Main/MainPage';
 
 type Page = 'home' | 'register' | 'main';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [username, setUsername] = useState('Runner');
+
+  const handleLogin = (name?: string) => {
+    if (name) setUsername(name);
+    setCurrentPage('main');
+  };
 
   switch (currentPage) {
     case 'register':
       return (
         <RegistrationPage
           onBack={() => setCurrentPage('home')}
-          onLogin={() => setCurrentPage('main')}
+          onLogin={handleLogin}
         />
       );
     case 'main':
-      return <div>Main Page - Coming soon</div>;
+      return (
+        <MainPage username={username} onLogout={() => setCurrentPage('home')} />
+      );
     case 'home':
     default:
       return <HomePage onNavigate={setCurrentPage} />;
