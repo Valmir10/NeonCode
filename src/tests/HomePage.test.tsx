@@ -44,9 +44,7 @@ describe('HomePage', () => {
     render(<HomePage />);
     expect(screen.getByText('Create Your Runner Profile')).toBeInTheDocument();
     expect(screen.getByText('Pick a Language Track')).toBeInTheDocument();
-    expect(
-      screen.getByText('Solve Challenges & Earn XP'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Solve Challenges & Earn XP')).toBeInTheDocument();
     expect(screen.getByText('Level Up & Compete')).toBeInTheDocument();
   });
 
