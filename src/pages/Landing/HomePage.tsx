@@ -1,17 +1,25 @@
-import { HackerIntro } from '../../components/landing/HackerIntro';
 import { HeroSection } from '../../components/landing/HeroSection';
 import { LiveTicker } from '../../components/landing/LiveTicker';
+import { FeaturesSection } from '../../components/landing/FeaturesSection';
+import { LanguageShowcase } from '../../components/landing/LanguageShowcase';
+import { HowItWorks } from '../../components/landing/HowItWorks';
 import { InteractiveDemo } from '../../components/landing/InteractiveDemo';
+import { StatsSection } from '../../components/landing/StatsSection';
+import { CallToAction } from '../../components/landing/CallToAction';
 import { Footer } from '../../components/landing/Footer';
 import styles from './HomePage.module.css';
 
 export function HomePage() {
   return (
     <div className={styles.landing}>
-      <HackerIntro />
       <HeroSection />
       <LiveTicker />
+      <FeaturesSection />
+      <LanguageShowcase />
+      <HowItWorks />
       <InteractiveDemo />
+      <StatsSection />
+      <CallToAction />
       <Footer />
     </div>
   );

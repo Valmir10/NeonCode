@@ -1,0 +1,118 @@
+/* ===========================
+   How It Works - Journey Steps
+   =========================== */
+
+.section {
+  padding: var(--spacing-2xl) var(--spacing-lg);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-neon-magenta);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+/* Vertical line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-neon-cyan),
+    var(--color-neon-magenta),
+    var(--color-neon-lime)
+  );
+  opacity: 0.4;
+}
+
+.step {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: flex-start;
+  position: relative;
+}
+
+.stepNumber {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: var(--color-bg-primary);
+  border: 2px solid var(--color-neon-cyan);
+  color: var(--color-neon-cyan);
+  box-shadow: 0 0 15px rgba(0, 255, 245, 0.2);
+  z-index: 1;
+  transition: all var(--transition-normal);
+}
+
+.step:hover .stepNumber {
+  background: var(--color-neon-cyan);
+  color: var(--color-bg-primary);
+  box-shadow: 0 0 25px rgba(0, 255, 245, 0.5);
+}
+
+.stepContent {
+  flex: 1;
+  padding-top: var(--spacing-sm);
+}
+
+.stepTitle {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.stepDescription {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.stepHighlight {
+  color: var(--color-neon-cyan);
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .timeline::before {
+    left: 18px;
+  }
+
+  .stepNumber {
+    width: 38px;
+    height: 38px;
+    font-size: 0.9rem;
+  }
+}
