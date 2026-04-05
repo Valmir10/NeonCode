@@ -1,0 +1,173 @@
+/* ===========================
+   Language Showcase
+   =========================== */
+
+.section {
+  padding: var(--spacing-2xl) var(--spacing-lg);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-neon-magenta);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.languages {
+  display: flex;
+  gap: var(--spacing-lg);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.langCard {
+  width: 160px;
+  padding: var(--spacing-xl) var(--spacing-md);
+  text-align: center;
+  background: rgba(15, 15, 30, 0.5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal);
+  cursor: default;
+  position: relative;
+}
+
+.langCard:hover {
+  transform: translateY(-6px) scale(1.03);
+}
+
+.langCard:hover .langName {
+  text-shadow: 0 0 15px currentColor;
+}
+
+.langIcon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-md);
+  display: block;
+  transition: transform var(--transition-normal);
+}
+
+.langCard:hover .langIcon {
+  transform: scale(1.15);
+}
+
+.langName {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: text-shadow var(--transition-normal);
+}
+
+.langLevel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  margin-top: var(--spacing-xs);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Individual language colors */
+.html .langName {
+  color: #ff6347;
+}
+.html:hover {
+  border-color: rgba(255, 99, 71, 0.5);
+  box-shadow: 0 0 25px rgba(255, 99, 71, 0.15);
+}
+
+.css .langName {
+  color: #4fc3f7;
+}
+.css:hover {
+  border-color: rgba(79, 195, 247, 0.5);
+  box-shadow: 0 0 25px rgba(79, 195, 247, 0.15);
+}
+
+.javascript .langName {
+  color: #ffd54f;
+}
+.javascript:hover {
+  border-color: rgba(255, 213, 79, 0.5);
+  box-shadow: 0 0 25px rgba(255, 213, 79, 0.15);
+}
+
+.typescript .langName {
+  color: #42a5f5;
+}
+.typescript:hover {
+  border-color: rgba(66, 165, 245, 0.5);
+  box-shadow: 0 0 25px rgba(66, 165, 245, 0.15);
+}
+
+.python .langName {
+  color: #66bb6a;
+}
+.python:hover {
+  border-color: rgba(102, 187, 106, 0.5);
+  box-shadow: 0 0 25px rgba(102, 187, 106, 0.15);
+}
+
+.codePreview {
+  margin-top: var(--spacing-2xl);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.codeBlock {
+  background: rgba(10, 10, 20, 0.9);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  overflow-x: auto;
+  position: relative;
+}
+
+.codeBlock::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-md);
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.keyword {
+  color: var(--color-neon-magenta);
+}
+
+.string {
+  color: var(--color-neon-lime);
+}
+
+.function {
+  color: var(--color-neon-cyan);
+}
+
+.comment {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.variable {
+  color: #ffd54f;
+}
