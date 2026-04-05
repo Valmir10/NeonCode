@@ -9,17 +9,23 @@ import { CallToAction } from '../../components/landing/CallToAction';
 import { Footer } from '../../components/landing/Footer';
 import styles from './HomePage.module.css';
 
-export function HomePage() {
+type Page = 'home' | 'register' | 'main';
+
+interface HomePageProps {
+  onNavigate: (page: Page) => void;
+}
+
+export function HomePage({ onNavigate }: HomePageProps) {
   return (
     <div className={styles.landing}>
-      <HeroSection />
+      <HeroSection onNavigate={onNavigate} />
       <LiveTicker />
       <FeaturesSection />
       <LanguageShowcase />
       <HowItWorks />
       <InteractiveDemo />
       <StatsSection />
-      <CallToAction />
+      <CallToAction onNavigate={onNavigate} />
       <Footer />
     </div>
   );
