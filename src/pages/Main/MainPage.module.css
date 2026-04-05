@@ -20,3 +20,8 @@
   padding: var(--spacing-xl);
   overflow-y: auto;
 }
+
+.contentFull {
+  flex: 1;
+  overflow: hidden;
+}
