@@ -20,7 +20,8 @@ export function LoginForm({ onSwitchToSignUp, onLogin }: LoginFormProps) {
       return;
     }
 
-    onLogin();
+    const name = email.split('@')[0];
+    onLogin(name);
   };
 
   return (

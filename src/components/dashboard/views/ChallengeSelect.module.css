@@ -1,0 +1,427 @@
+/* ===========================
+   Challenge Select View
+   =========================== */
+
+.view {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.header {
+  margin-bottom: 0;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-neon-magenta);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+/* Section Titles */
+.sectionTitle {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Language Grid */
+.langGrid {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.langCard {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: rgba(15, 15, 30, 0.5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-family: var(--font-mono);
+  color: var(--color-text-secondary);
+}
+
+.langCard:hover {
+  border-color: var(--color-border-glow);
+  color: var(--color-text-primary);
+}
+
+.langCardActive {
+  border-color: var(--color-neon-cyan);
+  color: var(--color-neon-cyan);
+  background: rgba(0, 255, 245, 0.05);
+  box-shadow: 0 0 15px rgba(0, 255, 245, 0.1);
+}
+
+.langIcon {
+  font-size: 1.2rem;
+}
+
+.langName {
+  font-size: 0.85rem;
+}
+
+/* Difficulty Grid */
+.diffGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.diffCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-lg);
+  background: rgba(15, 15, 30, 0.5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-align: left;
+}
+
+.diffCard:hover {
+  transform: translateY(-2px);
+}
+
+.diffCardActive {
+  box-shadow: 0 0 20px rgba(0, 255, 245, 0.1);
+}
+
+.diffEasy {
+  border-color: rgba(57, 255, 20, 0.15);
+}
+
+.diffEasy.diffCardActive {
+  border-color: rgba(57, 255, 20, 0.5);
+  background: rgba(57, 255, 20, 0.04);
+}
+
+.diffMedium {
+  border-color: rgba(245, 255, 0, 0.15);
+}
+
+.diffMedium.diffCardActive {
+  border-color: rgba(245, 255, 0, 0.5);
+  background: rgba(245, 255, 0, 0.04);
+}
+
+.diffHard {
+  border-color: rgba(255, 102, 0, 0.15);
+}
+
+.diffHard.diffCardActive {
+  border-color: rgba(255, 102, 0, 0.5);
+  background: rgba(255, 102, 0, 0.04);
+}
+
+.diffLabel {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.diffEasy .diffLabel {
+  color: var(--color-neon-lime);
+}
+
+.diffMedium .diffLabel {
+  color: var(--color-neon-yellow);
+}
+
+.diffHard .diffLabel {
+  color: var(--color-neon-orange);
+}
+
+.diffDesc {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.diffXp {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-neon-lime);
+  margin-top: var(--spacing-xs);
+}
+
+/* Active Quest Cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.questCard {
+  background: rgba(15, 15, 30, 0.6);
+  border: 1px solid rgba(0, 255, 245, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.questCard:hover {
+  border-color: var(--color-neon-cyan);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 255, 245, 0.08);
+}
+
+.questHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.questStatus {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--color-neon-yellow);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border: 1px solid rgba(245, 255, 0, 0.3);
+  border-radius: var(--radius-sm);
+}
+
+.questLang {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+}
+
+.cardTitle {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--color-text-primary);
+  display: block;
+  margin-bottom: var(--spacing-xs);
+}
+
+.cardDesc {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: var(--spacing-md);
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardXp {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-neon-lime);
+}
+
+.resumeTag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-neon-cyan);
+}
+
+/* Featured / New Mission */
+.featured {
+  margin-bottom: 0;
+}
+
+.featuredCard {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 245, 0.06) 0%,
+    rgba(255, 0, 255, 0.04) 100%
+  );
+  border: 1px solid rgba(0, 255, 245, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-xl);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.featuredCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 245, 0.03),
+    transparent
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.featuredCard:hover {
+  border-color: var(--color-neon-cyan);
+  box-shadow:
+    0 0 30px rgba(0, 255, 245, 0.1),
+    inset 0 0 30px rgba(0, 255, 245, 0.02);
+  transform: translateY(-2px);
+}
+
+.featuredInfo {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.featuredLabel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-neon-lime);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-neon-lime);
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.6);
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+.featuredTitle {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--color-neon-cyan);
+  text-shadow: 0 0 10px rgba(0, 255, 245, 0.3);
+  margin-bottom: var(--spacing-sm);
+}
+
+.featuredDesc {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+}
+
+.bonusText {
+  color: var(--color-neon-lime);
+  font-weight: 600;
+}
+
+.featuredMeta {
+  display: flex;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.metaTag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.metaTagDifficulty {
+  border-color: rgba(255, 102, 0, 0.4);
+  color: var(--color-neon-orange);
+}
+
+.metaTagXp {
+  border-color: rgba(57, 255, 20, 0.3);
+  color: var(--color-neon-lime);
+}
+
+.metaTagLang {
+  border-color: rgba(0, 255, 245, 0.3);
+  color: var(--color-neon-cyan);
+}
+
+.featuredAction {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.startBtn {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: var(--spacing-md) var(--spacing-xl);
+  background: var(--color-neon-cyan);
+  color: var(--color-bg-primary);
+  border: 2px solid var(--color-neon-cyan);
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: 0 0 15px rgba(0, 255, 245, 0.3);
+}
+
+.startBtn:hover {
+  background: transparent;
+  color: var(--color-neon-cyan);
+  box-shadow: 0 0 25px rgba(0, 255, 245, 0.5);
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes pulseDot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
