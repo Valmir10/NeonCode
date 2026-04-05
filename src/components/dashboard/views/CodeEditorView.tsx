@@ -1,5 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import type { Challenge } from './ChallengeSelect';
+import type { ChallengeData } from '../../../pages/Main/MainPage';
+import * as api from '../../../services/api';
 import { tokenize, type TokenType } from '../../../utils/syntaxHighlighter';
 import styles from './CodeEditorView.module.css';
 
@@ -27,39 +29,9 @@ const FILE_EXTENSIONS: Record<string, string> = {
   C: 'solution.c',
 };
 
-const HINTS: string[] = [
-  "Think about what data type you need here, choom. The answer's staring you in the face.",
-  "Break it down step by step. Even the best netrunners don't breach a wall in one move.",
-  'Check your syntax — one wrong character and the whole thing flatlines.',
-  'Try using a different approach. Sometimes the back door is easier than the front gate.',
-  "Remember the basics. Variables, loops, conditions — that's your toolkit, runner.",
-];
-
-const FIXER_PASS = [
-  'Preem work, netrunner! That code is delta-grade. The system accepts your solution.',
-  "Clean execution. You're climbing the ranks fast, choom. Keep this up.",
-  'ACCESS GRANTED. Your code breached the wall. XP incoming.',
-];
-
-const FIXER_FAIL = [
-  "Not quite, choom. Your logic's got holes. The firewall held this time.",
-  "Close but no cigar, runner. Re-check your approach — something's off.",
-  'The system rejected your input. Debug your logic and try again.',
-];
-
-const EXAMPLE_SOLUTIONS: Record<string, string> = {
-  JavaScript:
-    '// Example solution\nfunction solve(input) {\n  // Your code here\n  return result;\n}',
-  TypeScript:
-    '// Example solution\nfunction solve(input: string): number {\n  // Your code here\n  return 0;\n}',
-  Python:
-    '# Example solution\ndef solve(input):\n    # Your code here\n    return result',
-  Java: '// Example solution\npublic static int solve(String input) {\n    // Your code here\n    return 0;\n}',
-  C: '// Example solution\nint solve(char* input) {\n    // Your code here\n    return 0;\n}',
-};
-
 interface CodeEditorViewProps {
   challenge: Challenge;
+  challengeData?: ChallengeData | null;
   initialCode?: string;
   onBack: () => void;
   onSkip: () => void;
@@ -68,6 +40,7 @@ interface CodeEditorViewProps {
 
 export function CodeEditorView({
   challenge,
+  challengeData,
   initialCode,
   onBack,
   onSkip,
@@ -75,11 +48,14 @@ export function CodeEditorView({
 }: CodeEditorViewProps) {
   const [code, setCode] = useState(initialCode ?? '');
   const [hint, setHint] = useState<string | null>(null);
-  const [showAnswer, setShowAnswer] = useState(false);
+  const [hintLoading, setHintLoading] = useState(false);
+  const [revealedAnswer, setRevealedAnswer] = useState<string | null>(null);
+  const [revealLoading, setRevealLoading] = useState(false);
   const [result, setResult] = useState<{
     pass: boolean;
     message: string;
   } | null>(null);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
 
@@ -98,7 +74,6 @@ export function CodeEditorView({
     setActiveLine(before.split('\n').length);
   };
 
-  // Sync scroll between textarea and highlighted code
   useEffect(() => {
     const textarea = textareaRef.current;
     const highlight = highlightRef.current;
@@ -118,11 +93,21 @@ export function CodeEditorView({
     onCodeChange?.(newCode);
   };
 
-  const handleHint = () => {
-    setHint(HINTS[Math.floor(Math.random() * HINTS.length)]);
+  const handleHint = async () => {
+    setHintLoading(true);
+    try {
+      const hintText = await api.getHint(challenge.description, code, language);
+      setHint(hintText);
+    } catch {
+      setHint(
+        'Connection to AI Fixer failed. Make sure the server is running.',
+      );
+    } finally {
+      setHintLoading(false);
+    }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (code.trim().length < 5) {
       setResult({
         pass: false,
@@ -132,16 +117,43 @@ export function CodeEditorView({
       return;
     }
 
-    const pass = Math.random() > 0.4;
-    const messages = pass ? FIXER_PASS : FIXER_FAIL;
-    setResult({
-      pass,
-      message: messages[Math.floor(Math.random() * messages.length)],
-    });
+    setSubmitLoading(true);
+    try {
+      const evalResult = await api.submitCode(
+        challenge.description,
+        challengeData?.expectedOutput ?? '',
+        code,
+        language,
+      );
+      setResult({
+        pass: evalResult.pass,
+        message: evalResult.feedback,
+      });
+    } catch {
+      setResult({
+        pass: false,
+        message: 'Connection to AI Fixer failed. Try again.',
+      });
+    } finally {
+      setSubmitLoading(false);
+    }
   };
 
-  const handleRevealAnswer = () => {
-    setShowAnswer(true);
+  const handleRevealAnswer = async () => {
+    setRevealLoading(true);
+    try {
+      const solution = await api.revealSolution(
+        challenge.description,
+        language,
+      );
+      setRevealedAnswer(solution);
+    } catch {
+      setRevealedAnswer(
+        '// Failed to load solution. Make sure the server is running.',
+      );
+    } finally {
+      setRevealLoading(false);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -183,7 +195,7 @@ export function CodeEditorView({
         </div>
         <div className={styles.challengeActions}>
           <button className={styles.skipBtn} onClick={onSkip}>
-            Skip →
+            Skip
           </button>
         </div>
       </div>
@@ -197,26 +209,40 @@ export function CodeEditorView({
             <p className={styles.descText}>{challenge.description}</p>
           </div>
 
+          {challengeData?.expectedOutput && (
+            <div>
+              <p className={styles.descExampleLabel}>Expected output:</p>
+              <pre className={styles.descExample}>
+                {challengeData.expectedOutput}
+              </pre>
+            </div>
+          )}
+
           <div>
-            <button className={styles.hintBtn} onClick={handleHint}>
-              💡 Request Hint
+            <button
+              className={styles.hintBtn}
+              onClick={handleHint}
+              disabled={hintLoading}
+            >
+              {hintLoading ? '⏳ Thinking...' : '💡 Request Hint'}
             </button>
             {hint && <p className={styles.hintText}>{hint}</p>}
           </div>
 
           <div>
-            <button className={styles.revealBtn} onClick={handleRevealAnswer}>
-              🔓 Reveal Answer
+            <button
+              className={styles.revealBtn}
+              onClick={handleRevealAnswer}
+              disabled={revealLoading || revealedAnswer !== null}
+            >
+              {revealLoading ? '⏳ Loading...' : '🔓 Reveal Answer'}
             </button>
-            {showAnswer && (
+            {revealedAnswer && (
               <div className={styles.answerBlock}>
                 <p className={styles.answerWarning}>
                   // No XP awarded for revealed answers
                 </p>
-                <pre className={styles.descExample}>
-                  {EXAMPLE_SOLUTIONS[language] ??
-                    EXAMPLE_SOLUTIONS['JavaScript']}
-                </pre>
+                <pre className={styles.descExample}>{revealedAnswer}</pre>
               </div>
             )}
           </div>
@@ -224,7 +250,6 @@ export function CodeEditorView({
 
         {/* Right: Code Editor */}
         <div className={styles.editorContainer}>
-          {/* Tab bar */}
           <div className={styles.tabBar}>
             <div className={styles.fileTab}>
               <span className={styles.fileIcon}>📄</span>
@@ -232,7 +257,6 @@ export function CodeEditorView({
             </div>
           </div>
 
-          {/* Code area with syntax highlighting */}
           <div className={styles.codeArea}>
             <div className={styles.lineNumbers}>
               {Array.from({ length: lineCount }, (_, i) => (
@@ -268,7 +292,6 @@ export function CodeEditorView({
             </div>
           </div>
 
-          {/* Result overlay */}
           {result && (
             <div className={styles.resultOverlay}>
               <div className={styles.resultHeader}>
@@ -306,8 +329,12 @@ export function CodeEditorView({
             Chars: <span className={styles.statusValue}>{code.length}</span>
           </span>
         </div>
-        <button className={styles.submitBtn} onClick={handleSubmit}>
-          Submit
+        <button
+          className={styles.submitBtn}
+          onClick={handleSubmit}
+          disabled={submitLoading}
+        >
+          {submitLoading ? 'Analyzing...' : 'Submit'}
         </button>
       </div>
     </div>

@@ -1,8 +1,12 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ChallengeSelect } from '../components/dashboard/views/ChallengeSelect';
 import { CodeEditorView } from '../components/dashboard/views/CodeEditorView';
 import { tokenize } from '../utils/syntaxHighlighter';
+
+beforeEach(() => {
+  vi.restoreAllMocks();
+});
 
 const mockChallenge = {
   id: 'test-1',
@@ -112,10 +116,15 @@ describe('CodeEditorView', () => {
         onSkip={() => {}}
       />,
     );
-    expect(screen.getByText('Skip →')).toBeInTheDocument();
+    expect(screen.getByText('Skip')).toBeInTheDocument();
   });
 
-  it('renders reveal answer button', () => {
+  it('renders reveal answer button and calls API', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ solution: 'function solve() { return 42; }' }),
+    } as Response);
+
     render(
       <CodeEditorView
         challenge={mockChallenge}
@@ -124,12 +133,19 @@ describe('CodeEditorView', () => {
       />,
     );
     fireEvent.click(screen.getByText('🔓 Reveal Answer'));
-    expect(
-      screen.getByText('// No XP awarded for revealed answers'),
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByText('// No XP awarded for revealed answers'),
+      ).toBeInTheDocument();
+    });
   });
 
-  it('renders hint button and shows hint', () => {
+  it('renders hint button and shows AI hint', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ hint: 'Try using a loop, choom.' }),
+    } as Response);
+
     render(
       <CodeEditorView
         challenge={mockChallenge}
@@ -138,11 +154,21 @@ describe('CodeEditorView', () => {
       />,
     );
     fireEvent.click(screen.getByText('💡 Request Hint'));
-    const hints = screen.getAllByText(/choom|step|syntax|approach|basics/i);
-    expect(hints.length).toBeGreaterThan(0);
+    await waitFor(() => {
+      expect(screen.getByText('Try using a loop, choom.')).toBeInTheDocument();
+    });
   });
 
-  it('shows result on submit with code', () => {
+  it('shows result on submit with code via API', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        pass: true,
+        feedback: 'Preem work, netrunner!',
+        xpAwarded: true,
+      }),
+    } as Response);
+
     render(
       <CodeEditorView
         challenge={mockChallenge}
@@ -155,8 +181,10 @@ describe('CodeEditorView', () => {
       target: { value: 'const x = 42;\nconsole.log(x);' },
     });
     fireEvent.click(screen.getByText('Submit'));
-    const results = screen.getAllByText(/MISSION COMPLETE|BREACH FAILED/);
-    expect(results.length).toBeGreaterThan(0);
+    await waitFor(() => {
+      expect(screen.getByText('✓ MISSION COMPLETE')).toBeInTheDocument();
+      expect(screen.getByText('Preem work, netrunner!')).toBeInTheDocument();
+    });
   });
 
   it('calls onSkip when skip button is clicked', () => {
@@ -168,7 +196,7 @@ describe('CodeEditorView', () => {
         onSkip={mockSkip}
       />,
     );
-    fireEvent.click(screen.getByText('Skip →'));
+    fireEvent.click(screen.getByText('Skip'));
     expect(mockSkip).toHaveBeenCalled();
   });
 
