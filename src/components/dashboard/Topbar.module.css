@@ -1,0 +1,60 @@
+/* ===========================
+   Topbar
+   =========================== */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(10, 10, 20, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+.viewTitle {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.viewPrefix {
+  color: var(--color-neon-magenta);
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.statLabel {
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.65rem;
+}
+
+.statValue {
+  color: var(--color-neon-cyan);
+  font-weight: 700;
+}
+
+.xpValue {
+  color: var(--color-neon-lime);
+}
+
+.creditValue {
+  color: var(--color-neon-yellow);
+}

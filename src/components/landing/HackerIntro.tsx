@@ -11,13 +11,20 @@ const BOOT_LINES = [
 
 const INTRO_DURATION_MS = 4000;
 
-export function HackerIntro() {
+interface HackerIntroProps {
+  onComplete?: () => void;
+}
+
+export function HackerIntro({ onComplete }: HackerIntroProps) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(false), INTRO_DURATION_MS);
+    const timer = setTimeout(() => {
+      setVisible(false);
+      onComplete?.();
+    }, INTRO_DURATION_MS);
     return () => clearTimeout(timer);
-  }, []);
+  }, [onComplete]);
 
   if (!visible) return null;
 

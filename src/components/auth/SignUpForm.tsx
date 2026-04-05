@@ -7,7 +7,7 @@ import styles from '../../pages/Registration/RegistrationPage.module.css';
 
 interface SignUpFormProps {
   onSwitchToLogin: () => void;
-  onSignUp: () => void;
+  onSignUp: (username?: string) => void;
 }
 
 const STRENGTH_SEGMENTS = 4;
@@ -74,7 +74,7 @@ export function SignUpForm({ onSwitchToLogin, onSignUp }: SignUpFormProps) {
       return;
     }
 
-    onSignUp();
+    onSignUp(username.trim());
   };
 
   return (

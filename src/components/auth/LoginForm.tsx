@@ -3,7 +3,7 @@ import styles from '../../pages/Registration/RegistrationPage.module.css';
 
 interface LoginFormProps {
   onSwitchToSignUp: () => void;
-  onLogin: () => void;
+  onLogin: (username?: string) => void;
 }
 
 export function LoginForm({ onSwitchToSignUp, onLogin }: LoginFormProps) {
