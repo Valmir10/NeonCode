@@ -1,6 +1,12 @@
 import styles from './CallToAction.module.css';
 
-export function CallToAction() {
+type Page = 'home' | 'register' | 'main';
+
+interface CallToActionProps {
+  onNavigate: (page: Page) => void;
+}
+
+export function CallToAction({ onNavigate }: CallToActionProps) {
   return (
     <section className={styles.section}>
       <h2 className={styles.title}>
@@ -10,7 +16,9 @@ export function CallToAction() {
         The net is waiting. Create your runner profile, pick your first
         challenge, and start climbing the ranks. No credit chip required.
       </p>
-      <button className={styles.btn}>Start Hacking</button>
+      <button className={styles.btn} onClick={() => onNavigate('register')}>
+        Start Hacking
+      </button>
       <p className={styles.note}>// Free access — no strings attached</p>
     </section>
   );

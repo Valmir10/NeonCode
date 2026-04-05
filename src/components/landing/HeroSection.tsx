@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from './HeroSection.module.css';
 
+type Page = 'home' | 'register' | 'main';
+
 const ROTATING_WORDS = [
   'Solve challenges',
   'Level up your skills',
@@ -9,7 +11,11 @@ const ROTATING_WORDS = [
   'Earn achievements',
 ];
 
-export function HeroSection() {
+interface HeroSectionProps {
+  onNavigate: (page: Page) => void;
+}
+
+export function HeroSection({ onNavigate }: HeroSectionProps) {
   const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
@@ -35,8 +41,18 @@ export function HeroSection() {
       </div>
       <p className={styles.arrows}>&gt;&gt;&gt;&gt;&gt;&gt;</p>
       <div className={styles.actions}>
-        <button className={styles.btnPrimary}>Jack In</button>
-        <button className={styles.btnSecondary}>Login</button>
+        <button
+          className={styles.btnPrimary}
+          onClick={() => onNavigate('register')}
+        >
+          Jack In
+        </button>
+        <button
+          className={styles.btnSecondary}
+          onClick={() => onNavigate('register')}
+        >
+          Login
+        </button>
       </div>
     </section>
   );
