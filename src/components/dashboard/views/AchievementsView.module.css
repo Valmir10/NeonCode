@@ -1,0 +1,105 @@
+/* ===========================
+   Achievements View
+   =========================== */
+
+.view {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-neon-magenta);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.progress {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-neon-lime);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.progressTotal {
+  color: var(--color-text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.card {
+  background: rgba(15, 15, 30, 0.6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xl);
+  position: relative;
+  transition: all var(--transition-normal);
+}
+
+.cardUnlocked {
+  composes: card;
+  border-color: rgba(0, 255, 245, 0.25);
+}
+
+.cardUnlocked:hover {
+  border-color: var(--color-neon-cyan);
+  box-shadow: 0 0 20px rgba(0, 255, 245, 0.08);
+  transform: translateY(-2px);
+}
+
+.cardLocked {
+  composes: card;
+  opacity: 0.4;
+}
+
+.lockOverlay {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  font-size: 1rem;
+}
+
+.icon {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+  display: block;
+}
+
+.name {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.cardUnlocked .name {
+  color: var(--color-neon-cyan);
+}
+
+.description {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: var(--spacing-md);
+}
+
+.unlockedDate {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-neon-lime);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

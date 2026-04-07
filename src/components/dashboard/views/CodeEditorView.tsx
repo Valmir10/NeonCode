@@ -36,6 +36,7 @@ interface CodeEditorViewProps {
   onBack: () => void;
   onSkip: () => void;
   onCodeChange?: (code: string) => void;
+  onChallengeComplete?: (challenge: Challenge) => void;
 }
 
 export function CodeEditorView({
@@ -45,6 +46,7 @@ export function CodeEditorView({
   onBack,
   onSkip,
   onCodeChange,
+  onChallengeComplete,
 }: CodeEditorViewProps) {
   const [code, setCode] = useState(initialCode ?? '');
   const [hint, setHint] = useState<string | null>(null);
@@ -129,6 +131,9 @@ export function CodeEditorView({
         pass: evalResult.pass,
         message: evalResult.feedback,
       });
+      if (evalResult.pass && !revealedAnswer) {
+        onChallengeComplete?.(challenge);
+      }
     } catch {
       setResult({
         pass: false,

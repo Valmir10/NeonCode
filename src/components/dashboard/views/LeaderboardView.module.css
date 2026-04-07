@@ -1,0 +1,167 @@
+/* ===========================
+   Leaderboard View
+   =========================== */
+
+.view {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-neon-magenta);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2xl);
+}
+
+/* Player Position Banner */
+.positionBanner {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 245, 0.08),
+    rgba(255, 0, 255, 0.04)
+  );
+  border: 1px solid rgba(0, 255, 245, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.positionLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.positionNumber {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--color-neon-cyan);
+  text-shadow: 0 0 20px rgba(0, 255, 245, 0.4);
+}
+
+.positionRank {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-xs);
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.headerRow {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.headerCell {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: left;
+}
+
+.headerCellRight {
+  composes: headerCell;
+  text-align: right;
+}
+
+.row {
+  border-bottom: 1px solid rgba(42, 42, 62, 0.3);
+  transition: background var(--transition-fast);
+}
+
+.row:hover {
+  background: rgba(0, 255, 245, 0.02);
+}
+
+.rowPlayer {
+  composes: row;
+  background: rgba(0, 255, 245, 0.05);
+  border: 1px solid rgba(0, 255, 245, 0.15);
+  border-radius: var(--radius-sm);
+}
+
+.rowPlayer:hover {
+  background: rgba(0, 255, 245, 0.08);
+}
+
+.cell {
+  padding: var(--spacing-md);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.cellRight {
+  composes: cell;
+  text-align: right;
+}
+
+.posCell {
+  composes: cell;
+  width: 50px;
+  font-weight: 700;
+}
+
+.gold {
+  color: #ffd700;
+}
+.silver {
+  color: #c0c0c0;
+}
+.bronze {
+  color: #cd7f32;
+}
+
+.nameCell {
+  composes: cell;
+  color: var(--color-text-primary);
+}
+
+.nameCellPlayer {
+  composes: nameCell;
+  color: var(--color-neon-cyan);
+}
+
+.youTag {
+  font-size: 0.6rem;
+  color: var(--color-neon-cyan);
+  border: 1px solid rgba(0, 255, 245, 0.3);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  margin-left: var(--spacing-sm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.xpCell {
+  composes: cellRight;
+  color: var(--color-neon-lime);
+}
+
+.rankCell {
+  composes: cellRight;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}

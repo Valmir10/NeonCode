@@ -48,14 +48,33 @@ describe('MainPage', () => {
     expect(arenas.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('switches view when clicking sidebar nav', () => {
+  it('switches to leaderboard view', () => {
     renderPage();
     fireEvent.click(screen.getByText('Leaderboard'));
-    expect(
-      screen.getByText(
-        'See who rules the net. From Script Kiddie to Cyber Architect.',
-      ),
-    ).toBeInTheDocument();
+    expect(screen.getByText('// Global Rankings')).toBeInTheDocument();
+    expect(screen.getByText('Your Position')).toBeInTheDocument();
+  });
+
+  it('switches to achievements view', () => {
+    renderPage();
+    fireEvent.click(screen.getByText('Achievements'));
+    expect(screen.getByText('// Your Collection')).toBeInTheDocument();
+    expect(screen.getByText('First Blood')).toBeInTheDocument();
+  });
+
+  it('switches to profile view', () => {
+    renderPage();
+    fireEvent.click(screen.getByText('Profile'));
+    expect(screen.getByText('// Runner Profile')).toBeInTheDocument();
+    expect(screen.getByText('Total XP')).toBeInTheDocument();
+  });
+
+  it('switches to black market view', () => {
+    renderPage();
+    fireEvent.click(screen.getByText('Black Market'));
+    expect(screen.getByText('// Black Market')).toBeInTheDocument();
+    expect(screen.getByText('Underground Store')).toBeInTheDocument();
+    expect(screen.getByText('Midnight Purple')).toBeInTheDocument();
   });
 
   it('calls onLogout when Disconnect is clicked', () => {

@@ -1,0 +1,276 @@
+/* ===========================
+   Profile View
+   =========================== */
+
+.view {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-neon-magenta);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+/* Runner Card */
+.runnerCard {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 245, 0.06),
+    rgba(255, 0, 255, 0.04)
+  );
+  border: 1px solid rgba(0, 255, 245, 0.15);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    var(--color-neon-cyan),
+    var(--color-neon-magenta)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--color-bg-primary);
+  flex-shrink: 0;
+}
+
+.runnerInfo {
+  flex: 1;
+}
+
+.runnerName {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.runnerRank {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--color-neon-cyan);
+  text-shadow: 0 0 8px rgba(0, 255, 245, 0.3);
+}
+
+.runnerLevel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: var(--spacing-xs);
+}
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.statCard {
+  background: rgba(15, 15, 30, 0.6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  text-align: center;
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: var(--spacing-xs);
+}
+
+.statXp {
+  color: var(--color-neon-lime);
+}
+.statCredits {
+  color: var(--color-neon-yellow);
+}
+.statChallenges {
+  color: var(--color-neon-cyan);
+}
+.statRank {
+  color: var(--color-neon-magenta);
+}
+
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* XP Progress */
+.progressSection {
+  background: rgba(15, 15, 30, 0.6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+}
+
+.progressLabel {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.progressTarget {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-neon-cyan);
+}
+
+.progressBar {
+  height: 8px;
+  background: var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-neon-cyan),
+    var(--color-neon-magenta)
+  );
+  border-radius: 4px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 245, 0.3);
+}
+
+.progressMax {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-neon-lime);
+  text-align: center;
+  margin-top: var(--spacing-sm);
+}
+
+/* Recent Activity */
+.sectionTitle {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-md);
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.activityItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  background: rgba(15, 15, 30, 0.4);
+  border: 1px solid rgba(42, 42, 62, 0.3);
+  border-radius: var(--radius-sm);
+}
+
+.activityTitle {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text-primary);
+}
+
+.activityMeta {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.activityLang {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+}
+
+.activityXp {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-neon-lime);
+}
+
+.activityTime {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+}
+
+.emptyState {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+
+/* Achievements Preview */
+.achieveGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.achieveCard {
+  text-align: center;
+  padding: var(--spacing-md);
+  background: rgba(15, 15, 30, 0.4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.achieveCardUnlocked {
+  composes: achieveCard;
+  border-color: rgba(0, 255, 245, 0.2);
+}
+
+.achieveCardLocked {
+  composes: achieveCard;
+  opacity: 0.35;
+}
+
+.achieveIcon {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-xs);
+  display: block;
+}
+
+.achieveName {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+}
