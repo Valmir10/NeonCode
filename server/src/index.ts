@@ -4,6 +4,7 @@ import { dirname, resolve } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: resolve(__dirname, '../../.env') });
+
 import express from 'express';
 import cors from 'cors';
 import {
@@ -21,12 +22,10 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Health check
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'online', message: 'NeonCode API — System operational' });
 });
 
-// Generate a new challenge
 app.post('/api/challenge/generate', async (req, res) => {
   try {
     const { language, difficulty } = req.body as {
@@ -39,15 +38,17 @@ app.post('/api/challenge/generate', async (req, res) => {
       return;
     }
 
+    console.log(`[Generate] ${difficulty} ${language} challenge...`);
     const challenge = await generateChallenge(language, difficulty);
+    console.log(`[Generate] Success: "${challenge.title}"`);
     res.json(challenge);
-  } catch (error) {
-    console.error('Generate error:', error instanceof Error ? error.message : error);
-    res.status(500).json({ error: 'Failed to generate challenge', details: error instanceof Error ? error.message : 'Unknown error' });
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error('[Generate] FAILED:', msg);
+    res.status(500).json({ error: 'Failed to generate challenge', details: msg });
   }
 });
 
-// Get a hint for current challenge
 app.post('/api/challenge/hint', async (req, res) => {
   try {
     const { description, code, language } = req.body as {
@@ -63,13 +64,13 @@ app.post('/api/challenge/hint', async (req, res) => {
 
     const hint = await generateHint(description, code || '', language);
     res.json({ hint });
-  } catch (error) {
-    console.error('Hint error:', error);
-    res.status(500).json({ error: 'Failed to generate hint' });
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error('[Hint] FAILED:', msg);
+    res.status(500).json({ error: 'Failed to generate hint', details: msg });
   }
 });
 
-// Submit code for evaluation
 app.post('/api/challenge/submit', async (req, res) => {
   try {
     const { description, expectedOutput, code, language } = req.body as {
@@ -80,26 +81,19 @@ app.post('/api/challenge/submit', async (req, res) => {
     };
 
     if (!description || !code || !language) {
-      res
-        .status(400)
-        .json({ error: 'description, code, and language are required' });
+      res.status(400).json({ error: 'description, code, and language are required' });
       return;
     }
 
-    const result = await evaluateCode(
-      description,
-      expectedOutput || '',
-      code,
-      language,
-    );
+    const result = await evaluateCode(description, expectedOutput || '', code, language);
     res.json(result);
-  } catch (error) {
-    console.error('Submit error:', error);
-    res.status(500).json({ error: 'Failed to evaluate code' });
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error('[Submit] FAILED:', msg);
+    res.status(500).json({ error: 'Failed to evaluate code', details: msg });
   }
 });
 
-// Reveal the solution
 app.post('/api/challenge/reveal', async (req, res) => {
   try {
     const { description, language } = req.body as {
@@ -114,9 +108,10 @@ app.post('/api/challenge/reveal', async (req, res) => {
 
     const solution = await revealSolution(description, language);
     res.json({ solution });
-  } catch (error) {
-    console.error('Reveal error:', error);
-    res.status(500).json({ error: 'Failed to reveal solution' });
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error('[Reveal] FAILED:', msg);
+    res.status(500).json({ error: 'Failed to reveal solution', details: msg });
   }
 });
 

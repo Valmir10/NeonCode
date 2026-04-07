@@ -123,9 +123,8 @@ export function MainPage({ username, onLogout }: MainPageProps) {
         setCurrentCode('');
       } catch (error) {
         console.error('Failed to generate challenge:', error);
-        alert(
-          'Failed to connect to AI. Make sure the server is running (cd server && npm run dev).',
-        );
+        const msg = error instanceof Error ? error.message : 'Unknown error';
+        alert(`Failed to generate challenge: ${msg}`);
       } finally {
         setLoading(false);
       }

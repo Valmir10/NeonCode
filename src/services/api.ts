@@ -22,7 +22,9 @@ async function post<T>(endpoint: string, body: object): Promise<T> {
 
   if (!response.ok) {
     const err = await response.json().catch(() => ({}));
-    throw new Error(err.error || `API error: ${response.status}`);
+    throw new Error(
+      err.details || err.error || `API error: ${response.status}`,
+    );
   }
 
   return response.json();
