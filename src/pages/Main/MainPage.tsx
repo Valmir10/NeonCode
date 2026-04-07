@@ -1,12 +1,12 @@
 import { useState, useCallback } from 'react';
 import * as api from '../../services/api';
+import { usePlayerStore } from '../../stores/usePlayerStore';
 import { HackerIntro } from '../../components/landing/HackerIntro';
 import {
   Sidebar,
   type DashboardView,
 } from '../../components/dashboard/Sidebar';
 import { Topbar } from '../../components/dashboard/Topbar';
-import { PlaceholderView } from '../../components/dashboard/views/PlaceholderView';
 import {
   ChallengeSelect,
   type Challenge,
@@ -15,37 +15,16 @@ import {
   type ActiveQuest,
 } from '../../components/dashboard/views/ChallengeSelect';
 import { CodeEditorView } from '../../components/dashboard/views/CodeEditorView';
+import { LeaderboardView } from '../../components/dashboard/views/LeaderboardView';
+import { AchievementsView } from '../../components/dashboard/views/AchievementsView';
+import { ProfileView } from '../../components/dashboard/views/ProfileView';
+import { BlackMarketView } from '../../components/dashboard/views/BlackMarketView';
 import styles from './MainPage.module.css';
 
 interface MainPageProps {
   username: string;
   onLogout: () => void;
 }
-
-const PLACEHOLDER_CONFIG: Partial<
-  Record<DashboardView, { icon: string; title: string; subtitle: string }>
-> = {
-  leaderboard: {
-    icon: '🏆',
-    title: 'Leaderboard',
-    subtitle: 'See who rules the net. From Script Kiddie to Cyber Architect.',
-  },
-  achievements: {
-    icon: '🎖️',
-    title: 'Achievements',
-    subtitle: 'Your collection of badges and milestones. Keep grinding.',
-  },
-  'black-market': {
-    icon: '🛒',
-    title: 'Black Market',
-    subtitle: 'Spend your hard-earned credits on cosmetic upgrades and themes.',
-  },
-  profile: {
-    icon: '👤',
-    title: 'Runner Profile',
-    subtitle: 'Your stats, your history, your identity in the net.',
-  },
-};
 
 const XP_BASE: Record<ChallengeDifficulty, number> = {
   easy: 100,
@@ -59,6 +38,8 @@ export interface ChallengeData {
 }
 
 export function MainPage({ username, onLogout }: MainPageProps) {
+  const player = usePlayerStore(username);
+
   const [activeView, setActiveView] = useState<DashboardView>('play');
   const [showIntro, setShowIntro] = useState(true);
   const [activeChallenge, setActiveChallenge] = useState<Challenge | null>(
@@ -70,7 +51,6 @@ export function MainPage({ username, onLogout }: MainPageProps) {
   const [activeQuests, setActiveQuests] = useState<ActiveQuest[]>([]);
   const [currentCode, setCurrentCode] = useState('');
   const [loading, setLoading] = useState(false);
-  const [playerStats] = useState({ xp: 0, credits: 100, level: 1 });
 
   const saveCurrentQuest = useCallback(() => {
     if (!activeChallenge || !currentCode) return;
@@ -156,6 +136,22 @@ export function MainPage({ username, onLogout }: MainPageProps) {
     setCurrentCode('');
   };
 
+  const handleChallengeComplete = useCallback(
+    (challenge: Challenge) => {
+      player.awardXp(challenge.xp, {
+        id: challenge.id,
+        title: challenge.title,
+        language: challenge.language,
+        difficulty: challenge.difficulty,
+      });
+      // Remove from active quests
+      setActiveQuests((prev) =>
+        prev.filter((q) => q.challenge.id !== challenge.id),
+      );
+    },
+    [player],
+  );
+
   const renderContent = () => {
     if (activeView === 'play') {
       if (loading) {
@@ -179,29 +175,53 @@ export function MainPage({ username, onLogout }: MainPageProps) {
             onBack={handleBackFromEditor}
             onSkip={handleSkip}
             onCodeChange={setCurrentCode}
+            onChallengeComplete={handleChallengeComplete}
           />
         );
       }
       return (
         <ChallengeSelect
           activeQuests={activeQuests}
-          playerLevel={playerStats.level}
+          playerLevel={player.level}
           onStartNewChallenge={handleStartNewChallenge}
           onResumeQuest={handleResumeQuest}
         />
       );
     }
 
-    const config = PLACEHOLDER_CONFIG[activeView];
-    if (!config) return null;
-
-    return (
-      <PlaceholderView
-        icon={config.icon}
-        title={config.title}
-        subtitle={config.subtitle}
-      />
-    );
+    switch (activeView) {
+      case 'leaderboard':
+        return (
+          <LeaderboardView
+            playerUsername={player.username}
+            playerXp={player.xp}
+          />
+        );
+      case 'achievements':
+        return <AchievementsView achievements={player.achievements} />;
+      case 'profile':
+        return (
+          <ProfileView
+            username={player.username}
+            xp={player.xp}
+            credits={player.credits}
+            level={player.level}
+            rank={player.rank}
+            nextRank={player.nextRank}
+            completedChallenges={player.completedChallenges}
+            achievements={player.achievements}
+          />
+        );
+      case 'black-market':
+        return (
+          <BlackMarketView
+            credits={player.credits}
+            onPurchase={player.spendCredits}
+          />
+        );
+      default:
+        return null;
+    }
   };
 
   return (
@@ -211,15 +231,16 @@ export function MainPage({ username, onLogout }: MainPageProps) {
         <Sidebar
           activeView={activeView}
           onViewChange={handleViewChange}
-          username={username}
+          username={player.username}
+          rank={player.rank}
           onLogout={onLogout}
         />
         <div className={styles.main}>
           <Topbar
             activeView={activeView}
-            xp={playerStats.xp}
-            credits={playerStats.credits}
-            level={playerStats.level}
+            xp={player.xp}
+            credits={player.credits}
+            level={player.level}
           />
           <div
             className={

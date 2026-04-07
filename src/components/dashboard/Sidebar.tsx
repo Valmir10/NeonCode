@@ -28,6 +28,7 @@ interface SidebarProps {
   activeView: DashboardView;
   onViewChange: (view: DashboardView) => void;
   username: string;
+  rank: string;
   onLogout: () => void;
 }
 
@@ -35,6 +36,7 @@ export function Sidebar({
   activeView,
   onViewChange,
   username,
+  rank,
   onLogout,
 }: SidebarProps) {
   const initials = username.slice(0, 2).toUpperCase();
@@ -77,7 +79,7 @@ export function Sidebar({
           <div className={styles.avatar}>{initials}</div>
           <div className={styles.userDetails}>
             <div className={styles.userName}>{username}</div>
-            <div className={styles.userRank}>Script Kiddie</div>
+            <div className={styles.userRank}>{rank}</div>
           </div>
         </div>
         <button className={styles.navItem} onClick={onLogout}>
