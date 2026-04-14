@@ -1,6 +1,6 @@
 import styles from './CallToAction.module.css';
 
-type Page = 'home' | 'register' | 'main';
+type Page = 'home' | 'register' | 'login' | 'main';
 
 interface CallToActionProps {
   onNavigate: (page: Page) => void;

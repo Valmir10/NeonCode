@@ -28,7 +28,7 @@ describe('ChallengeSelect', () => {
         onResumeQuest={() => {}}
       />,
     );
-    expect(screen.getByText('// Choose Language')).toBeInTheDocument();
+    expect(screen.getByText('Language')).toBeInTheDocument();
     const langButtons = screen.getAllByText('JavaScript');
     expect(langButtons.length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText('Python')).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe('ChallengeSelect', () => {
     expect(screen.getByText('Hard')).toBeInTheDocument();
   });
 
-  it('renders new mission card with Engage button', () => {
+  it('renders new mission card with Start button', () => {
     render(
       <ChallengeSelect
         activeQuests={[]}
@@ -59,7 +59,7 @@ describe('ChallengeSelect', () => {
         onResumeQuest={() => {}}
       />,
     );
-    expect(screen.getByText('Engage')).toBeInTheDocument();
+    expect(screen.getByText('Start')).toBeInTheDocument();
     expect(screen.getByText('New Mission')).toBeInTheDocument();
   });
 
@@ -78,7 +78,7 @@ describe('ChallengeSelect', () => {
     expect(screen.getByText('Resume →')).toBeInTheDocument();
   });
 
-  it('calls onStartNewChallenge when Engage is clicked', () => {
+  it('calls onStartNewChallenge when Start is clicked', () => {
     const mockStart = vi.fn();
     render(
       <ChallengeSelect
@@ -88,7 +88,7 @@ describe('ChallengeSelect', () => {
         onResumeQuest={() => {}}
       />,
     );
-    fireEvent.click(screen.getByText('Engage'));
+    fireEvent.click(screen.getByText('Start'));
     expect(mockStart).toHaveBeenCalledWith('JavaScript', 'easy');
   });
 });
@@ -119,12 +119,7 @@ describe('CodeEditorView', () => {
     expect(screen.getByText('Skip')).toBeInTheDocument();
   });
 
-  it('renders reveal answer button and calls API', async () => {
-    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ solution: 'function solve() { return 42; }' }),
-    } as Response);
-
+  it('renders reveal answer button and shows solution on click', async () => {
     render(
       <CodeEditorView
         challenge={mockChallenge}
@@ -132,20 +127,15 @@ describe('CodeEditorView', () => {
         onSkip={() => {}}
       />,
     );
-    fireEvent.click(screen.getByText('🔓 Reveal Answer'));
+    fireEvent.click(screen.getByText('Reveal Answer'));
     await waitFor(() => {
       expect(
-        screen.getByText('// No XP awarded for revealed answers'),
+        screen.getByText('No XP awarded for revealed answers'),
       ).toBeInTheDocument();
     });
   });
 
-  it('renders hint button and shows AI hint', async () => {
-    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ hint: 'Try using a loop, choom.' }),
-    } as Response);
-
+  it('renders hint button and shows hint on click', async () => {
     render(
       <CodeEditorView
         challenge={mockChallenge}
@@ -153,22 +143,15 @@ describe('CodeEditorView', () => {
         onSkip={() => {}}
       />,
     );
-    fireEvent.click(screen.getByText('💡 Request Hint'));
+    fireEvent.click(screen.getByText('Get a Hint'));
     await waitFor(() => {
-      expect(screen.getByText('Try using a loop, choom.')).toBeInTheDocument();
+      expect(
+        screen.getByText(/Start by reading the problem/),
+      ).toBeInTheDocument();
     });
   });
 
-  it('shows result on submit with code via API', async () => {
-    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({
-        pass: true,
-        feedback: 'Preem work, netrunner!',
-        xpAwarded: true,
-      }),
-    } as Response);
-
+  it('shows result on submit with code', async () => {
     render(
       <CodeEditorView
         challenge={mockChallenge}
@@ -178,12 +161,13 @@ describe('CodeEditorView', () => {
     );
     const textarea = document.querySelector('textarea')!;
     fireEvent.change(textarea, {
-      target: { value: 'const x = 42;\nconsole.log(x);' },
+      target: {
+        value: 'const x = 42;\nconsole.log(x);\nfunction solve() { return x; }',
+      },
     });
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
-      expect(screen.getByText('✓ MISSION COMPLETE')).toBeInTheDocument();
-      expect(screen.getByText('Preem work, netrunner!')).toBeInTheDocument();
+      expect(screen.getByText(/Challenge Complete/)).toBeInTheDocument();
     });
   });
 
@@ -209,7 +193,8 @@ describe('CodeEditorView', () => {
         onSkip={() => {}}
       />,
     );
-    fireEvent.click(screen.getByText('<-- Missions'));
+    const backBtn = screen.getByText(/Back/);
+    fireEvent.click(backBtn);
     expect(mockBack).toHaveBeenCalled();
   });
 });

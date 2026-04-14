@@ -1,4 +1,5 @@
 import { type FormEvent, useState } from 'react';
+import { login } from '../../services/auth';
 import styles from '../../pages/Registration/RegistrationPage.module.css';
 
 interface LoginFormProps {
@@ -10,18 +11,27 @@ export function LoginForm({ onSwitchToSignUp, onLogin }: LoginFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
 
     if (!email.trim() || !password) {
-      setError('All fields are required, choom.');
+      setError('All fields are required.');
       return;
     }
 
-    const name = email.split('@')[0];
-    onLogin(name);
+    setLoading(true);
+    const result = await login(email, password);
+    setLoading(false);
+
+    if (!result.success) {
+      setError(result.error ?? 'Login failed.');
+      return;
+    }
+
+    onLogin(result.username);
   };
 
   return (
@@ -34,7 +44,7 @@ export function LoginForm({ onSwitchToSignUp, onLogin }: LoginFormProps) {
           id="login-email"
           type="email"
           className={styles.input}
-          placeholder="runner@nightcity.net"
+          placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           autoComplete="email"
@@ -49,7 +59,7 @@ export function LoginForm({ onSwitchToSignUp, onLogin }: LoginFormProps) {
           id="login-password"
           type="password"
           className={styles.input}
-          placeholder="••••••••"
+          placeholder="Your password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="current-password"
@@ -58,8 +68,8 @@ export function LoginForm({ onSwitchToSignUp, onLogin }: LoginFormProps) {
 
       {error && <p className={styles.error}>{error}</p>}
 
-      <button type="submit" className={styles.submitBtn}>
-        Jack In
+      <button type="submit" className={styles.submitBtn} disabled={loading}>
+        {loading ? 'Logging in...' : 'Log In'}
       </button>
 
       <div className={styles.divider}>
@@ -69,7 +79,7 @@ export function LoginForm({ onSwitchToSignUp, onLogin }: LoginFormProps) {
       </div>
 
       <p className={styles.switchText}>
-        New to the net?{' '}
+        Don&apos;t have an account?{' '}
         <button
           type="button"
           className={styles.switchLink}
