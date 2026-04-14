@@ -26,9 +26,7 @@ const MAIN_NAV: NavItem[] = [
   { id: 'friends', icon: '◎', label: 'Friends' },
 ];
 
-const ACCOUNT_NAV: NavItem[] = [
-  { id: 'profile', icon: '●', label: 'Profile' },
-];
+const ACCOUNT_NAV: NavItem[] = [{ id: 'profile', icon: '●', label: 'Profile' }];
 
 interface SidebarProps {
   activeView: DashboardView;
@@ -52,7 +50,9 @@ export function Sidebar({
   const initials = username.slice(0, 2).toUpperCase();
 
   return (
-    <aside className={`${styles.sidebar} ${collapsed ? styles.sidebarCollapsed : ''}`}>
+    <aside
+      className={`${styles.sidebar} ${collapsed ? styles.sidebarCollapsed : ''}`}
+    >
       <div className={styles.logoSection}>
         <div className={styles.logo}>{collapsed ? 'N' : 'NEONCODE'}</div>
         {!collapsed && <div className={styles.logoSub}>coding arena</div>}

@@ -1,5 +1,9 @@
 import { useMemo } from 'react';
-import type { CompletedChallenge, Achievement, Rank } from '../../../stores/usePlayerStore';
+import type {
+  CompletedChallenge,
+  Achievement,
+  Rank,
+} from '../../../stores/usePlayerStore';
 import styles from './FeedView.module.css';
 
 interface FeedViewProps {
@@ -25,7 +29,8 @@ const SYSTEM_POSTS: FeedItem[] = [
     id: 'sys-welcome',
     type: 'system',
     title: 'Welcome to NeonCode',
-    description: 'Start completing challenges to see your activity here. Try the Daily Challenge for bonus XP!',
+    description:
+      'Start completing challenges to see your activity here. Try the Daily Challenge for bonus XP!',
     timestamp: Date.now() - 3600000,
     icon: '◈',
     accent: 'cyan',
@@ -34,7 +39,8 @@ const SYSTEM_POSTS: FeedItem[] = [
     id: 'sys-tip-1',
     type: 'system',
     title: 'Tip: Use hints wisely',
-    description: 'Stuck on a challenge? Use the hint button for guidance without losing XP. Revealing the answer gives no XP.',
+    description:
+      'Stuck on a challenge? Use the hint button for guidance without losing XP. Revealing the answer gives no XP.',
     timestamp: Date.now() - 7200000,
     icon: '◇',
     accent: 'yellow',
@@ -43,7 +49,8 @@ const SYSTEM_POSTS: FeedItem[] = [
     id: 'sys-tip-2',
     type: 'system',
     title: 'Tip: Try different languages',
-    description: 'Complete challenges in 3 different languages to unlock the Polyglot achievement.',
+    description:
+      'Complete challenges in 3 different languages to unlock the Polyglot achievement.',
     timestamp: Date.now() - 10800000,
     icon: '◇',
     accent: 'yellow',
@@ -61,7 +68,13 @@ function timeAgo(timestamp: number): string {
   return `${days}d ago`;
 }
 
-export function FeedView({ username, completedChallenges, achievements, xp, rank }: FeedViewProps) {
+export function FeedView({
+  username,
+  completedChallenges,
+  achievements,
+  xp,
+  rank,
+}: FeedViewProps) {
   const feedItems = useMemo(() => {
     const items: FeedItem[] = [];
 
@@ -73,7 +86,12 @@ export function FeedView({ username, completedChallenges, achievements, xp, rank
         description: `${username} solved a ${c.difficulty} ${c.language} challenge and earned ${c.xpEarned} XP.`,
         timestamp: c.completedAt,
         icon: '▶',
-        accent: c.difficulty === 'hard' ? 'magenta' : c.difficulty === 'medium' ? 'yellow' : 'cyan',
+        accent:
+          c.difficulty === 'hard'
+            ? 'magenta'
+            : c.difficulty === 'medium'
+              ? 'yellow'
+              : 'cyan',
       });
     }
 
@@ -107,20 +125,27 @@ export function FeedView({ username, completedChallenges, achievements, xp, rank
 
       <div className={styles.statsRow}>
         <div className={styles.statCard}>
-          <span className={styles.statNumber}>{completedChallenges.length}</span>
+          <span className={styles.statNumber}>
+            {completedChallenges.length}
+          </span>
           <span className={styles.statLabel}>Challenges</span>
         </div>
         <div className={styles.statCard}>
-          <span className={`${styles.statNumber} ${styles.xpColor}`}>{xp.toLocaleString()}</span>
+          <span className={`${styles.statNumber} ${styles.xpColor}`}>
+            {xp.toLocaleString()}
+          </span>
           <span className={styles.statLabel}>Total XP</span>
         </div>
         <div className={styles.statCard}>
-          <span className={`${styles.statNumber} ${styles.rankColor}`}>{rank}</span>
+          <span className={`${styles.statNumber} ${styles.rankColor}`}>
+            {rank}
+          </span>
           <span className={styles.statLabel}>Current Rank</span>
         </div>
         <div className={styles.statCard}>
           <span className={`${styles.statNumber} ${styles.achieveColor}`}>
-            {achievements.filter(a => a.unlockedAt).length}/{achievements.length}
+            {achievements.filter((a) => a.unlockedAt).length}/
+            {achievements.length}
           </span>
           <span className={styles.statLabel}>Achievements</span>
         </div>
@@ -128,7 +153,10 @@ export function FeedView({ username, completedChallenges, achievements, xp, rank
 
       <div className={styles.feedList}>
         {feedItems.map((item) => (
-          <div key={item.id} className={`${styles.feedItem} ${styles[`accent_${item.accent}`]}`}>
+          <div
+            key={item.id}
+            className={`${styles.feedItem} ${styles[`accent_${item.accent}`]}`}
+          >
             <div className={styles.feedIcon}>{item.icon}</div>
             <div className={styles.feedContent}>
               <div className={styles.feedTitle}>{item.title}</div>

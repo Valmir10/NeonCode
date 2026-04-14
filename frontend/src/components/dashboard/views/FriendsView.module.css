@@ -129,7 +129,11 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-neon-cyan), var(--color-neon-magenta));
+  background: linear-gradient(
+    135deg,
+    var(--color-neon-cyan),
+    var(--color-neon-magenta)
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -207,7 +211,9 @@
   cursor: pointer;
   padding: 4px 8px;
   opacity: 0;
-  transition: opacity var(--transition-fast), color var(--transition-fast);
+  transition:
+    opacity var(--transition-fast),
+    color var(--transition-fast);
   flex-shrink: 0;
 }
 

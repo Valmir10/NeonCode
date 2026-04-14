@@ -26,7 +26,9 @@ async function checkBackend(): Promise<boolean> {
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 2000);
-    const res = await fetch(`${API_BASE}/health`, { signal: controller.signal });
+    const res = await fetch(`${API_BASE}/health`, {
+      signal: controller.signal,
+    });
     clearTimeout(timeout);
     _isOffline = !res.ok;
   } catch {
@@ -36,7 +38,9 @@ async function checkBackend(): Promise<boolean> {
 }
 
 // Reset check periodically so reconnection is detected
-setInterval(() => { _isOffline = null; }, 30000);
+setInterval(() => {
+  _isOffline = null;
+}, 30000);
 
 async function post<T>(endpoint: string, body: object): Promise<T> {
   const response = await fetch(`${API_BASE}${endpoint}`, {
