@@ -43,12 +43,12 @@ const DIFFICULTIES: { id: ChallengeDifficulty; label: string; desc: string }[] =
     {
       id: 'medium',
       label: 'Medium',
-      desc: 'Intermediate — algorithms, data structures. Some game-themed missions.',
+      desc: 'Intermediate — algorithms, data structures, data manipulation.',
     },
     {
       id: 'hard',
       label: 'Hard',
-      desc: 'Advanced — complex problems, optimization. Full cyberpunk missions.',
+      desc: 'Advanced — complex problems, optimization, design patterns.',
     },
   ];
 
@@ -118,17 +118,16 @@ export function ChallengeSelect({
   return (
     <div className={styles.view}>
       <div className={styles.header}>
-        <p className={styles.label}>// Code Arena</p>
-        <h2 className={styles.title}>Select Your Mission</h2>
+        <p className={styles.label}>Code Arena</p>
+        <h2 className={styles.title}>Select Your Challenge</h2>
         <p className={styles.subtitle}>
-          Choose a language and difficulty. The AI Fixer will generate your
-          challenge.
+          Choose a language and difficulty to generate a new challenge.
         </p>
       </div>
 
       {/* Language Selection */}
       <div>
-        <h3 className={styles.sectionTitle}>// Choose Language</h3>
+        <h3 className={styles.sectionTitle}>Language</h3>
         <div className={styles.langGrid}>
           {LANGUAGES.map((lang) => (
             <button
@@ -145,7 +144,7 @@ export function ChallengeSelect({
 
       {/* Difficulty Selection */}
       <div>
-        <h3 className={styles.sectionTitle}>// Choose Difficulty</h3>
+        <h3 className={styles.sectionTitle}>Difficulty</h3>
         <div className={styles.diffGrid}>
           {DIFFICULTIES.map((diff) => (
             <button
@@ -166,7 +165,7 @@ export function ChallengeSelect({
       {/* Active Quests */}
       {filteredQuests.length > 0 && (
         <div>
-          <h3 className={styles.sectionTitle}>// Active Quests</h3>
+          <h3 className={styles.sectionTitle}>Active Quests</h3>
           <div className={styles.grid}>
             {filteredQuests.map((quest) => (
               <div
@@ -211,7 +210,7 @@ export function ChallengeSelect({
               Generate {selectedDiff} {selectedLang} Challenge
             </h3>
             <p className={styles.featuredDesc}>
-              The AI Fixer will create a unique challenge based on your
+              A unique challenge will be generated based on your
               selection.
               {playerLevel === 1 && selectedDiff !== 'easy' && (
                 <span className={styles.bonusText}>
@@ -233,7 +232,7 @@ export function ChallengeSelect({
             </div>
           </div>
           <div className={styles.featuredAction}>
-            <button className={styles.startBtn}>Engage</button>
+            <button className={styles.startBtn}>Start</button>
           </div>
         </div>
       </div>
