@@ -20,7 +20,7 @@ const DEMO_FRIENDS: Friend[] = [
 
 export function useFriendsStore() {
   const [friends, setFriends] = useState<Friend[]>(DEMO_FRIENDS);
-  const [pendingRequests, setPendingRequests] = useState<string[]>([]);
+  const [pendingRequests] = useState<string[]>([]);
 
   const addFriend = useCallback((username: string) => {
     const trimmed = username.trim();

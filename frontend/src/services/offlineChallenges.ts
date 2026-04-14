@@ -438,7 +438,7 @@ Node* reverse(Node* head) {
   },
 };
 
-let challengeCounters: Record<string, number> = {};
+const challengeCounters: Record<string, number> = {};
 
 export function getOfflineChallenge(language: string, difficulty: string): GeneratedChallenge {
   const langChallenges = CHALLENGES[language]?.[difficulty];
