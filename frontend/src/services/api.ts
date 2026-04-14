@@ -19,53 +19,45 @@ export interface EvalResult {
   xpAwarded: boolean;
 }
 
-let _isOffline: boolean | null = null;
-
-async function checkBackend(): Promise<boolean> {
-  if (_isOffline !== null) return !_isOffline;
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 2000);
-    const res = await fetch(`${API_BASE}/health`, { signal: controller.signal });
-    clearTimeout(timeout);
-    _isOffline = !res.ok;
-  } catch {
-    _isOffline = true;
-  }
-  return !_isOffline;
-}
-
-// Reset check periodically so reconnection is detected
-setInterval(() => { _isOffline = null; }, 30000);
-
 async function post<T>(endpoint: string, body: object): Promise<T> {
-  const response = await fetch(`${API_BASE}${endpoint}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
 
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({}));
-    throw new Error(
-      err.details || err.error || `API error: ${response.status}`,
-    );
+  try {
+    const response = await fetch(`${API_BASE}${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(
+        err.details || err.error || `API error: ${response.status}`,
+      );
+    }
+
+    return response.json();
+  } catch (error) {
+    clearTimeout(timeout);
+    throw error;
   }
-
-  return response.json();
 }
 
 export async function generateChallenge(
   language: string,
   difficulty: string,
 ): Promise<GeneratedChallenge> {
-  const online = await checkBackend();
-  if (!online) {
-    // Small delay to simulate generation feel
-    await new Promise((r) => setTimeout(r, 500));
+  try {
+    return await post('/challenge/generate', { language, difficulty });
+  } catch {
+    // Backend unavailable or errored - use offline challenges
+    await new Promise((r) => setTimeout(r, 400));
     return getOfflineChallenge(language, difficulty);
   }
-  return post('/challenge/generate', { language, difficulty });
 }
 
 export async function getHint(
@@ -73,16 +65,16 @@ export async function getHint(
   code: string,
   language: string,
 ): Promise<string> {
-  const online = await checkBackend();
-  if (!online) {
+  try {
+    const data = await post<{ hint: string }>('/challenge/hint', {
+      description,
+      code,
+      language,
+    });
+    return data.hint;
+  } catch {
     return getOfflineHint(description, code);
   }
-  const data = await post<{ hint: string }>('/challenge/hint', {
-    description,
-    code,
-    language,
-  });
-  return data.hint;
 }
 
 export async function submitCode(
@@ -91,34 +83,30 @@ export async function submitCode(
   code: string,
   language: string,
 ): Promise<EvalResult> {
-  const online = await checkBackend();
-  if (!online) {
+  try {
+    return await post('/challenge/submit', {
+      description,
+      expectedOutput,
+      code,
+      language,
+    });
+  } catch {
     return getOfflineEvaluation(code);
   }
-  return post('/challenge/submit', {
-    description,
-    expectedOutput,
-    code,
-    language,
-  });
 }
 
 export async function revealSolution(
   description: string,
   language: string,
 ): Promise<string> {
-  const online = await checkBackend();
-  if (!online) {
+  try {
+    const data = await post<{ solution: string }>('/challenge/reveal', {
+      description,
+      language,
+    });
+    return data.solution;
+  } catch {
     const challenge = getOfflineChallenge(language, 'easy');
     return challenge.sampleSolution;
   }
-  const data = await post<{ solution: string }>('/challenge/reveal', {
-    description,
-    language,
-  });
-  return data.solution;
-}
-
-export function isOfflineMode(): boolean {
-  return _isOffline === true;
 }
