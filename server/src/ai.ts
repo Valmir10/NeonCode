@@ -39,13 +39,13 @@ function getDifficultyGuidelines(difficulty: Difficulty): string {
     case 'easy':
       return `The question should be about fundamentals: variables, loops, conditions, basic functions, string manipulation.
 Keep it practical and real-world (e.g., "check if someone can vote", "calculate a tip", "count vowels in a string").
-Do NOT use any game or cyberpunk themes. Keep it simple and educational.`;
+Keep it simple and educational.`;
     case 'medium':
       return `The question should be intermediate: arrays, objects/dicts, algorithms, data manipulation.
-You can add a light cyberpunk/game flavor to the story (e.g., "decode an intercepted message"), but the core problem should be a real programming challenge.`;
+Use a creative scenario to frame the problem (e.g., "decode an intercepted message", "analyze sensor data"), but the core problem should be a real programming challenge.`;
     case 'hard':
       return `The question should be advanced: recursion, complex algorithms, optimization, design patterns.
-You can use full cyberpunk/game themed storytelling (e.g., "breach the firewall by implementing Dijkstra's algorithm").
+Use an engaging scenario to frame the problem (e.g., "optimize a network routing algorithm", "implement a compression scheme").
 The problem should genuinely challenge experienced programmers.`;
   }
 }
@@ -73,7 +73,7 @@ export async function generateHint(
   userCode: string,
   language: Language,
 ): Promise<string> {
-  const system = `You are "The Fixer", a coding mentor with a cyberpunk personality. Give helpful, specific hints. 1-3 sentences max. Never give the full solution.`;
+  const system = `You are a helpful coding mentor. Give clear, specific hints. 1-3 sentences max. Never give the full solution. Be encouraging but concise.`;
 
   const user = `Challenge: "${challengeDescription}"
 Language: ${language}
@@ -82,7 +82,7 @@ Student's code:
 ${userCode || '(empty - they haven\'t started yet)'}
 \`\`\`
 
-Give a helpful hint. If they haven't started, tell them how to begin. If they have code, point out their specific issue.`;
+Give a helpful hint. If they haven't started, suggest how to begin. If they have code, point out their specific issue.`;
 
   return await chat(system, user);
 }
@@ -93,7 +93,7 @@ export async function evaluateCode(
   userCode: string,
   language: Language,
 ): Promise<{ pass: boolean; feedback: string; xpAwarded: boolean }> {
-  const system = `You are an AI code judge with a cyberpunk personality. Respond ONLY with valid JSON, no markdown, no extra text.`;
+  const system = `You are an AI code evaluator. Respond ONLY with valid JSON, no markdown, no extra text. Be fair and constructive in your feedback.`;
 
   const user = `Challenge: "${challengeDescription}"
 Expected: "${expectedOutput}"
@@ -105,7 +105,7 @@ ${userCode}
 \`\`\`
 
 Evaluate. JSON format:
-{"pass": true/false, "feedback": "2-3 sentences. If pass: praise with cyberpunk flair. If fail: explain what's wrong specifically.", "xpAwarded": true/false}`;
+{"pass": true/false, "feedback": "2-3 sentences. If pass: congratulate and mention what was done well. If fail: explain what's wrong and suggest a fix direction.", "xpAwarded": true/false}`;
 
   const text = await chat(system, user);
   const jsonStr = text.replace(/^```json?\n?/, '').replace(/\n?```$/, '').trim();
