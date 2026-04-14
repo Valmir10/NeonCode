@@ -21,6 +21,8 @@ import { ProfileView } from '../../components/dashboard/views/ProfileView';
 import { BlackMarketView } from '../../components/dashboard/views/BlackMarketView';
 import { FeedView } from '../../components/dashboard/views/FeedView';
 import { DailyChallengeView } from '../../components/dashboard/views/DailyChallengeView';
+import { FriendsView } from '../../components/dashboard/views/FriendsView';
+import { useFriendsStore } from '../../stores/useFriendsStore';
 import styles from './MainPage.module.css';
 
 interface MainPageProps {
@@ -41,6 +43,7 @@ export interface ChallengeData {
 
 export function MainPage({ username, onLogout }: MainPageProps) {
   const player = usePlayerStore(username);
+  const friendsStore = useFriendsStore();
 
   const [activeView, setActiveView] = useState<DashboardView>('play');
   const [showIntro, setShowIntro] = useState(true);
@@ -236,6 +239,16 @@ export function MainPage({ username, onLogout }: MainPageProps) {
           <BlackMarketView
             credits={player.credits}
             onPurchase={player.spendCredits}
+          />
+        );
+      case 'friends':
+        return (
+          <FriendsView
+            friends={friendsStore.friends}
+            onlineFriends={friendsStore.onlineFriends}
+            offlineFriends={friendsStore.offlineFriends}
+            onAddFriend={friendsStore.addFriend}
+            onRemoveFriend={friendsStore.removeFriend}
           />
         );
       default:

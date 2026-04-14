@@ -1,0 +1,239 @@
+/* ===========================
+   Friends View
+   =========================== */
+
+.friends {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--spacing-lg) 0;
+}
+
+.header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* Add Friend */
+.addSection {
+  margin-bottom: var(--spacing-xl);
+}
+
+.addRow {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.addInput {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  padding: 10px var(--spacing-md);
+  background: rgba(15, 15, 25, 0.6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.addInput::placeholder {
+  color: var(--color-text-muted);
+}
+
+.addInput:focus {
+  border-color: rgba(0, 255, 245, 0.3);
+}
+
+.addBtn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  background: var(--color-neon-cyan);
+  color: var(--color-bg-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: box-shadow var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.addBtn:hover {
+  box-shadow: 0 0 12px rgba(0, 255, 245, 0.3);
+}
+
+.addMessage {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  margin-top: var(--spacing-sm);
+}
+
+.msg_success {
+  color: var(--color-neon-lime);
+}
+
+.msg_error {
+  color: var(--color-neon-orange);
+}
+
+/* Sections */
+.section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.sectionTitle {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.friendList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Friend Card */
+.friendCard {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: 10px var(--spacing-md);
+  background: rgba(15, 15, 25, 0.4);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.friendCard:hover {
+  background: rgba(15, 15, 25, 0.7);
+}
+
+.friendAvatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-neon-cyan), var(--color-neon-magenta));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-bg-primary);
+  flex-shrink: 0;
+}
+
+.friendInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.friendName {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text-primary);
+}
+
+.friendMeta {
+  display: flex;
+  gap: var(--spacing-sm);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+}
+
+.friendRank {
+  color: var(--color-text-muted);
+}
+
+.friendXp {
+  color: var(--color-neon-lime);
+}
+
+.friendRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status_online {
+  background: var(--color-neon-lime);
+  box-shadow: 0 0 6px rgba(57, 255, 20, 0.4);
+}
+
+.status_coding {
+  background: var(--color-neon-cyan);
+  box-shadow: 0 0 6px rgba(0, 255, 245, 0.4);
+}
+
+.status_offline {
+  background: var(--color-text-muted);
+}
+
+.statusText {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+}
+
+.removeBtn {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  opacity: 0;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.friendCard:hover .removeBtn {
+  opacity: 1;
+}
+
+.removeBtn:hover {
+  color: var(--color-neon-orange);
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-2xl);
+}
+
+.emptyTitle {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.emptyDesc {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}

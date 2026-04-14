@@ -8,6 +8,7 @@ const VIEW_TITLES: Record<DashboardView, string> = {
   leaderboard: 'Leaderboard',
   achievements: 'Achievements',
   'black-market': 'Black Market',
+  friends: 'Friends',
   profile: 'Profile',
 };
 

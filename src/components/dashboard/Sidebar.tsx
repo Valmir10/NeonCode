@@ -7,7 +7,8 @@ export type DashboardView =
   | 'black-market'
   | 'profile'
   | 'feed'
-  | 'daily';
+  | 'daily'
+  | 'friends';
 
 interface NavItem {
   id: DashboardView;
@@ -22,6 +23,7 @@ const MAIN_NAV: NavItem[] = [
   { id: 'leaderboard', icon: '▲', label: 'Leaderboard' },
   { id: 'achievements', icon: '★', label: 'Achievements' },
   { id: 'black-market', icon: '◉', label: 'Black Market' },
+  { id: 'friends', icon: '◎', label: 'Friends' },
 ];
 
 const ACCOUNT_NAV: NavItem[] = [
