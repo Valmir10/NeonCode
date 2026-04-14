@@ -19,6 +19,8 @@ import { LeaderboardView } from '../../components/dashboard/views/LeaderboardVie
 import { AchievementsView } from '../../components/dashboard/views/AchievementsView';
 import { ProfileView } from '../../components/dashboard/views/ProfileView';
 import { BlackMarketView } from '../../components/dashboard/views/BlackMarketView';
+import { FeedView } from '../../components/dashboard/views/FeedView';
+import { DailyChallengeView } from '../../components/dashboard/views/DailyChallengeView';
 import styles from './MainPage.module.css';
 
 interface MainPageProps {
@@ -42,6 +44,7 @@ export function MainPage({ username, onLogout }: MainPageProps) {
 
   const [activeView, setActiveView] = useState<DashboardView>('play');
   const [showIntro, setShowIntro] = useState(true);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeChallenge, setActiveChallenge] = useState<Challenge | null>(
     null,
   );
@@ -144,7 +147,6 @@ export function MainPage({ username, onLogout }: MainPageProps) {
         language: challenge.language,
         difficulty: challenge.difficulty,
       });
-      // Remove from active quests
       setActiveQuests((prev) =>
         prev.filter((q) => q.challenge.id !== challenge.id),
       );
@@ -157,12 +159,8 @@ export function MainPage({ username, onLogout }: MainPageProps) {
       if (loading) {
         return (
           <div className={styles.loadingContainer}>
-            <div className={styles.loadingText}>
-              &gt; GENERATING CHALLENGE...
-            </div>
-            <div className={styles.loadingSubtext}>
-              AI Fixer is crafting your mission
-            </div>
+            <div className={styles.loadingSpinner} />
+            <div className={styles.loadingText}>Generating challenge...</div>
           </div>
         );
       }
@@ -190,6 +188,27 @@ export function MainPage({ username, onLogout }: MainPageProps) {
     }
 
     switch (activeView) {
+      case 'daily':
+        return (
+          <DailyChallengeView
+            playerLevel={player.level}
+            onStartChallenge={(lang, diff) => {
+              handleViewChange('play');
+              handleStartNewChallenge(lang, diff);
+            }}
+            completedChallenges={player.completedChallenges}
+          />
+        );
+      case 'feed':
+        return (
+          <FeedView
+            username={player.username}
+            completedChallenges={player.completedChallenges}
+            achievements={player.achievements}
+            xp={player.xp}
+            rank={player.rank}
+          />
+        );
       case 'leaderboard':
         return (
           <LeaderboardView
@@ -233,6 +252,8 @@ export function MainPage({ username, onLogout }: MainPageProps) {
           onViewChange={handleViewChange}
           username={player.username}
           rank={player.rank}
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
           onLogout={onLogout}
         />
         <div className={styles.main}>

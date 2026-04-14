@@ -3,6 +3,8 @@ import styles from './Topbar.module.css';
 
 const VIEW_TITLES: Record<DashboardView, string> = {
   play: 'Code Arena',
+  daily: 'Daily Challenge',
+  feed: 'Activity Feed',
   leaderboard: 'Leaderboard',
   achievements: 'Achievements',
   'black-market': 'Black Market',
@@ -19,23 +21,24 @@ interface TopbarProps {
 export function Topbar({ activeView, xp, credits, level }: TopbarProps) {
   return (
     <header className={styles.topbar}>
-      <div className={styles.viewTitle}>
-        <span className={styles.viewPrefix}>&gt;</span>
+      <h1 className={styles.viewTitle}>
         {VIEW_TITLES[activeView]}
-      </div>
+      </h1>
       <div className={styles.stats}>
         <div className={styles.statItem}>
           <span className={styles.statLabel}>LVL</span>
           <span className={styles.statValue}>{level}</span>
         </div>
+        <div className={styles.divider} />
         <div className={styles.statItem}>
           <span className={styles.statLabel}>XP</span>
           <span className={`${styles.statValue} ${styles.xpValue}`}>
             {xp.toLocaleString()}
           </span>
         </div>
+        <div className={styles.divider} />
         <div className={styles.statItem}>
-          <span className={styles.statLabel}>Credits</span>
+          <span className={styles.statLabel}>CR</span>
           <span className={`${styles.statValue} ${styles.creditValue}`}>
             {credits.toLocaleString()}
           </span>
