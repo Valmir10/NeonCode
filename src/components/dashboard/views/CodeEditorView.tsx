@@ -58,6 +58,7 @@ export function CodeEditorView({
     message: string;
   } | null>(null);
   const [submitLoading, setSubmitLoading] = useState(false);
+  const [descOpen, setDescOpen] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
 
@@ -102,7 +103,7 @@ export function CodeEditorView({
       setHint(hintText);
     } catch {
       setHint(
-        'Connection to AI Fixer failed. Make sure the server is running.',
+        'Could not connect to the server. Make sure the backend is running.',
       );
     } finally {
       setHintLoading(false);
@@ -114,7 +115,7 @@ export function CodeEditorView({
       setResult({
         pass: false,
         message:
-          "You haven't written enough code yet, choom. Give it a real shot.",
+          "Write some more code before submitting. Give it a real try first.",
       });
       return;
     }
@@ -137,7 +138,7 @@ export function CodeEditorView({
     } catch {
       setResult({
         pass: false,
-        message: 'Connection to AI Fixer failed. Try again.',
+        message: 'Could not connect to the server. Try again.',
       });
     } finally {
       setSubmitLoading(false);
@@ -183,7 +184,7 @@ export function CodeEditorView({
       <div className={styles.challengeBar}>
         <div className={styles.challengeInfo}>
           <button className={styles.backBtn} onClick={onBack}>
-            &lt;-- Missions
+            &larr; Back
           </button>
           <span className={styles.challengeTitle}>{challenge.title}</span>
           <div className={styles.challengeMeta}>
@@ -199,6 +200,12 @@ export function CodeEditorView({
           </div>
         </div>
         <div className={styles.challengeActions}>
+          <button
+            className={`${styles.toggleDescBtn} ${descOpen ? styles.toggleDescBtnActive : ''}`}
+            onClick={() => setDescOpen(!descOpen)}
+          >
+            {descOpen ? '← Hide Brief' : '→ Show Brief'}
+          </button>
           <button className={styles.skipBtn} onClick={onSkip}>
             Skip
           </button>
@@ -207,10 +214,12 @@ export function CodeEditorView({
 
       {/* Main editor area */}
       <div className={styles.editorArea}>
-        {/* Left: Description Panel */}
-        <div className={styles.descPanel}>
+        {/* Left: Description Panel (collapsible) */}
+        <div
+          className={`${styles.descPanel} ${!descOpen ? styles.descPanelCollapsed : ''}`}
+        >
           <div>
-            <p className={styles.descTitle}>// Mission Brief</p>
+            <p className={styles.descTitle}>Mission Brief</p>
             <p className={styles.descText}>{challenge.description}</p>
           </div>
 
@@ -229,7 +238,7 @@ export function CodeEditorView({
               onClick={handleHint}
               disabled={hintLoading}
             >
-              {hintLoading ? '⏳ Thinking...' : '💡 Request Hint'}
+              {hintLoading ? 'Thinking...' : 'Get a Hint'}
             </button>
             {hint && <p className={styles.hintText}>{hint}</p>}
           </div>
@@ -240,12 +249,12 @@ export function CodeEditorView({
               onClick={handleRevealAnswer}
               disabled={revealLoading || revealedAnswer !== null}
             >
-              {revealLoading ? '⏳ Loading...' : '🔓 Reveal Answer'}
+              {revealLoading ? 'Loading...' : 'Reveal Answer'}
             </button>
             {revealedAnswer && (
               <div className={styles.answerBlock}>
                 <p className={styles.answerWarning}>
-                  // No XP awarded for revealed answers
+                  No XP awarded for revealed answers
                 </p>
                 <pre className={styles.descExample}>{revealedAnswer}</pre>
               </div>
@@ -257,7 +266,7 @@ export function CodeEditorView({
         <div className={styles.editorContainer}>
           <div className={styles.tabBar}>
             <div className={styles.fileTab}>
-              <span className={styles.fileIcon}>📄</span>
+              <span className={styles.fileIcon}>&#9635;</span>
               {FILE_EXTENSIONS[language] ?? 'solution.js'}
             </div>
           </div>
@@ -303,13 +312,13 @@ export function CodeEditorView({
                 <span
                   className={`${styles.resultTitle} ${result.pass ? styles.resultPass : styles.resultFail}`}
                 >
-                  {result.pass ? '✓ MISSION COMPLETE' : '✗ BREACH FAILED'}
+                  {result.pass ? '✓ Challenge Complete' : '✗ Not Quite'}
                 </span>
                 <button
                   className={styles.resultClose}
                   onClick={() => setResult(null)}
                 >
-                  [close]
+                  Close
                 </button>
               </div>
               <p className={styles.resultBody}>{result.message}</p>
