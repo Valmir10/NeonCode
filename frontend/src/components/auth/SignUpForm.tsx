@@ -1,4 +1,5 @@
 import { type FormEvent, useState } from 'react';
+import { register } from '../../services/auth';
 import {
   usePasswordStrength,
   type PasswordStrength,
@@ -30,9 +31,9 @@ function getSegmentClass(
 
 function getStrengthLabel(strength: PasswordStrength): string {
   const labels: Record<string, string> = {
-    weak: '// Weak — needs more chrome',
-    medium: '// Medium — getting there',
-    strong: '// Strong — preem security',
+    weak: 'Weak',
+    medium: 'Medium',
+    strong: 'Strong',
   };
   return labels[strength] ?? '';
 }
@@ -52,15 +53,16 @@ export function SignUpForm({ onSwitchToLogin, onSignUp }: SignUpFormProps) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const { strength, score } = usePasswordStrength(password);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
 
     if (!username.trim() || !email.trim() || !password) {
-      setError('All fields are required, choom.');
+      setError('All fields are required.');
       return;
     }
 
@@ -74,6 +76,15 @@ export function SignUpForm({ onSwitchToLogin, onSignUp }: SignUpFormProps) {
       return;
     }
 
+    setLoading(true);
+    const result = await register(username.trim(), email.trim(), password);
+    setLoading(false);
+
+    if (!result.success) {
+      setError(result.error ?? 'Registration failed.');
+      return;
+    }
+
     onSignUp(username.trim());
   };
 
@@ -81,13 +92,13 @@ export function SignUpForm({ onSwitchToLogin, onSignUp }: SignUpFormProps) {
     <form onSubmit={handleSubmit}>
       <div className={styles.field}>
         <label htmlFor="signup-username" className={styles.label}>
-          Runner Alias
+          Username
         </label>
         <input
           id="signup-username"
           type="text"
           className={styles.input}
-          placeholder="NetRunner_42"
+          placeholder="Your username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           autoComplete="username"
@@ -102,7 +113,7 @@ export function SignUpForm({ onSwitchToLogin, onSignUp }: SignUpFormProps) {
           id="signup-email"
           type="email"
           className={styles.input}
-          placeholder="runner@nightcity.net"
+          placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           autoComplete="email"
@@ -117,7 +128,7 @@ export function SignUpForm({ onSwitchToLogin, onSignUp }: SignUpFormProps) {
           id="signup-password"
           type="password"
           className={styles.input}
-          placeholder="••••••••"
+          placeholder="At least 6 characters"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="new-password"
@@ -144,7 +155,7 @@ export function SignUpForm({ onSwitchToLogin, onSignUp }: SignUpFormProps) {
           id="signup-confirm"
           type="password"
           className={styles.input}
-          placeholder="••••••••"
+          placeholder="Repeat your password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           autoComplete="new-password"
@@ -153,8 +164,8 @@ export function SignUpForm({ onSwitchToLogin, onSignUp }: SignUpFormProps) {
 
       {error && <p className={styles.error}>{error}</p>}
 
-      <button type="submit" className={styles.submitBtn}>
-        Create Account
+      <button type="submit" className={styles.submitBtn} disabled={loading}>
+        {loading ? 'Creating account...' : 'Create Account'}
       </button>
 
       <div className={styles.divider}>
@@ -164,13 +175,13 @@ export function SignUpForm({ onSwitchToLogin, onSignUp }: SignUpFormProps) {
       </div>
 
       <p className={styles.switchText}>
-        Already in the system?{' '}
+        Already have an account?{' '}
         <button
           type="button"
           className={styles.switchLink}
           onClick={onSwitchToLogin}
         >
-          Login
+          Log In
         </button>
       </p>
     </form>
