@@ -22,9 +22,7 @@ interface TopbarProps {
 export function Topbar({ activeView, xp, credits, level }: TopbarProps) {
   return (
     <header className={styles.topbar}>
-      <h1 className={styles.viewTitle}>
-        {VIEW_TITLES[activeView]}
-      </h1>
+      <h1 className={styles.viewTitle}>{VIEW_TITLES[activeView]}</h1>
       <div className={styles.stats}>
         <div className={styles.statItem}>
           <span className={styles.statLabel}>LVL</span>

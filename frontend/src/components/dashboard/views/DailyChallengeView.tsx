@@ -5,7 +5,10 @@ import styles from './DailyChallengeView.module.css';
 
 interface DailyChallengeViewProps {
   playerLevel: number;
-  onStartChallenge: (language: ChallengeLanguage, difficulty: ChallengeDifficulty) => void;
+  onStartChallenge: (
+    language: ChallengeLanguage,
+    difficulty: ChallengeDifficulty,
+  ) => void;
   completedChallenges: CompletedChallenge[];
 }
 
@@ -25,7 +28,13 @@ function getDailyTasks(): DailyTask[] {
     (now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 86400000,
   );
 
-  const languages: ChallengeLanguage[] = ['JavaScript', 'Python', 'TypeScript', 'Java', 'C'];
+  const languages: ChallengeLanguage[] = [
+    'JavaScript',
+    'Python',
+    'TypeScript',
+    'Java',
+    'C',
+  ];
   const langIndex = dayOfYear % languages.length;
 
   return [
@@ -87,7 +96,9 @@ export function DailyChallengeView({
       dayEnd.setDate(dayEnd.getDate() + 1);
 
       const hasCompletion = completedChallenges.some(
-        (c) => c.completedAt >= dayStart.getTime() && c.completedAt < dayEnd.getTime(),
+        (c) =>
+          c.completedAt >= dayStart.getTime() &&
+          c.completedAt < dayEnd.getTime(),
       );
 
       if (hasCompletion) {
@@ -114,7 +125,8 @@ export function DailyChallengeView({
 
       <div className={styles.progress}>
         <div className={styles.progressLabel}>
-          Today&apos;s progress: {todayCompletions} challenge{todayCompletions !== 1 ? 's' : ''} completed
+          Today&apos;s progress: {todayCompletions} challenge
+          {todayCompletions !== 1 ? 's' : ''} completed
         </div>
         <div className={styles.progressBar}>
           <div
@@ -126,10 +138,15 @@ export function DailyChallengeView({
 
       <div className={styles.taskGrid}>
         {tasks.map((task) => (
-          <div key={task.id} className={`${styles.taskCard} ${styles[`difficulty_${task.difficulty}`]}`}>
+          <div
+            key={task.id}
+            className={`${styles.taskCard} ${styles[`difficulty_${task.difficulty}`]}`}
+          >
             <div className={styles.taskHeader}>
               <span className={styles.taskTitle}>{task.title}</span>
-              <span className={`${styles.taskDiff} ${styles[`diff_${task.difficulty}`]}`}>
+              <span
+                className={`${styles.taskDiff} ${styles[`diff_${task.difficulty}`]}`}
+              >
                 {task.difficulty}
               </span>
             </div>
@@ -150,9 +167,14 @@ export function DailyChallengeView({
       <div className={styles.tipSection}>
         <p className={styles.tipTitle}>How it works</p>
         <ul className={styles.tipList}>
-          <li>Daily challenges rotate each day with new languages and difficulties</li>
+          <li>
+            Daily challenges rotate each day with new languages and difficulties
+          </li>
           <li>Complete all three for maximum XP and to maintain your streak</li>
-          <li>Bonus XP is awarded on top of the regular challenge XP (Level {playerLevel} bonus applies)</li>
+          <li>
+            Bonus XP is awarded on top of the regular challenge XP (Level{' '}
+            {playerLevel} bonus applies)
+          </li>
         </ul>
       </div>
     </div>

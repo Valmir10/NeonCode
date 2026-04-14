@@ -24,7 +24,10 @@ export function FriendsView({
   onRemoveFriend,
 }: FriendsViewProps) {
   const [addInput, setAddInput] = useState('');
-  const [addMessage, setAddMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+  const [addMessage, setAddMessage] = useState<{
+    text: string;
+    type: 'success' | 'error';
+  } | null>(null);
 
   const handleAdd = () => {
     if (!addInput.trim()) return;
@@ -67,7 +70,9 @@ export function FriendsView({
           </button>
         </div>
         {addMessage && (
-          <p className={`${styles.addMessage} ${styles[`msg_${addMessage.type}`]}`}>
+          <p
+            className={`${styles.addMessage} ${styles[`msg_${addMessage.type}`]}`}
+          >
             {addMessage.text}
           </p>
         )}
@@ -137,12 +142,18 @@ function FriendCard({
         <div className={styles.friendName}>{friend.username}</div>
         <div className={styles.friendMeta}>
           <span className={styles.friendRank}>{friend.rank}</span>
-          <span className={styles.friendXp}>{friend.xp.toLocaleString()} XP</span>
+          <span className={styles.friendXp}>
+            {friend.xp.toLocaleString()} XP
+          </span>
         </div>
       </div>
       <div className={styles.friendRight}>
-        <span className={`${styles.statusDot} ${styles[`status_${friend.status}`]}`} />
-        <span className={styles.statusText}>{STATUS_LABELS[friend.status]}</span>
+        <span
+          className={`${styles.statusDot} ${styles[`status_${friend.status}`]}`}
+        />
+        <span className={styles.statusText}>
+          {STATUS_LABELS[friend.status]}
+        </span>
       </div>
       <button
         className={styles.removeBtn}

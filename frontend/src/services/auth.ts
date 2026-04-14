@@ -37,7 +37,10 @@ export async function register(
   const users = getUsers();
 
   if (users.some((u) => u.email.toLowerCase() === email.toLowerCase())) {
-    return { success: false, error: 'An account with this email already exists.' };
+    return {
+      success: false,
+      error: 'An account with this email already exists.',
+    };
   }
 
   if (users.some((u) => u.username.toLowerCase() === username.toLowerCase())) {

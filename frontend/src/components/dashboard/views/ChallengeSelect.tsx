@@ -210,8 +210,7 @@ export function ChallengeSelect({
               Generate {selectedDiff} {selectedLang} Challenge
             </h3>
             <p className={styles.featuredDesc}>
-              A unique challenge will be generated based on your
-              selection.
+              A unique challenge will be generated based on your selection.
               {playerLevel === 1 && selectedDiff !== 'easy' && (
                 <span className={styles.bonusText}>
                   {' '}

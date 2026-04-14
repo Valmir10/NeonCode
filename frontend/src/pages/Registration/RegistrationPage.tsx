@@ -9,7 +9,11 @@ interface RegistrationPageProps {
   onLogin: (username?: string) => void;
 }
 
-export function RegistrationPage({ initialTab = 'signup', onBack, onLogin }: RegistrationPageProps) {
+export function RegistrationPage({
+  initialTab = 'signup',
+  onBack,
+  onLogin,
+}: RegistrationPageProps) {
   const [activeTab, setActiveTab] = useState<'signup' | 'login'>(initialTab);
 
   return (

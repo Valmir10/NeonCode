@@ -115,7 +115,7 @@ export function CodeEditorView({
       setResult({
         pass: false,
         message:
-          "Write some more code before submitting. Give it a real try first.",
+          'Write some more code before submitting. Give it a real try first.',
       });
       return;
     }
