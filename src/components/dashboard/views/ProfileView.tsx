@@ -53,7 +53,7 @@ export function ProfileView({
 
   return (
     <div className={styles.view}>
-      <p className={styles.label}>// Runner Profile</p>
+      <p className={styles.label}>Profile</p>
 
       {/* Runner Card */}
       <div className={styles.runnerCard}>
@@ -113,17 +113,17 @@ export function ProfileView({
         </div>
         {!nextRank && (
           <p className={styles.progressMax}>
-            You&apos;ve reached the top. Legendary status.
+            You&apos;ve reached the highest rank!
           </p>
         )}
       </div>
 
       {/* Recent Activity */}
       <div>
-        <h3 className={styles.sectionTitle}>// Recent Activity</h3>
+        <h3 className={styles.sectionTitle}>Recent Activity</h3>
         {recentChallenges.length === 0 ? (
           <p className={styles.emptyState}>
-            No challenges completed yet. Hit the Code Arena.
+            No challenges completed yet. Head to the Code Arena to get started.
           </p>
         ) : (
           <div className={styles.activityList}>
@@ -146,7 +146,7 @@ export function ProfileView({
       {/* Achievements Preview */}
       <div>
         <h3 className={styles.sectionTitle}>
-          // Achievements ({unlocked}/{achievements.length})
+          Achievements ({unlocked}/{achievements.length})
         </h3>
         <div className={styles.achieveGrid}>
           {achievements.slice(0, 6).map((a) => (

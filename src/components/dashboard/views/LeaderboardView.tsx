@@ -45,7 +45,7 @@ export function LeaderboardView({
 
   return (
     <div className={styles.view}>
-      <p className={styles.label}>// Global Rankings</p>
+      <p className={styles.label}>Global Rankings</p>
       <h2 className={styles.title}>Leaderboard</h2>
 
       <div className={styles.positionBanner}>

@@ -18,7 +18,7 @@ export function AchievementsView({ achievements }: AchievementsViewProps) {
 
   return (
     <div className={styles.view}>
-      <p className={styles.label}>// Your Collection</p>
+      <p className={styles.label}>Your Collection</p>
       <h2 className={styles.title}>Achievements</h2>
       <p className={styles.progress}>
         {unlocked.length}{' '}

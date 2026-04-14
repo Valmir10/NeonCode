@@ -126,15 +126,15 @@ export function BlackMarketView({ credits, onPurchase }: BlackMarketViewProps) {
     if (success) {
       setOwned((prev) => new Set([...prev, item.id]));
     } else {
-      setError('Not enough credits, choom. Earn more in the Code Arena.');
+      setError('Not enough credits. Earn more by completing challenges.');
     }
   };
 
   return (
     <div className={styles.view}>
       <div className={styles.header}>
-        <p className={styles.label}>// Black Market</p>
-        <h2 className={styles.title}>Underground Store</h2>
+        <p className={styles.label}>Black Market</p>
+        <h2 className={styles.title}>Cosmetic Store</h2>
         <div className={styles.creditsBar}>
           <span className={styles.creditsLabel}>Credits:</span>
           <span className={styles.creditsValue}>
@@ -147,7 +147,7 @@ export function BlackMarketView({ credits, onPurchase }: BlackMarketViewProps) {
 
       {CATEGORIES.map((cat) => (
         <div key={cat} className={styles.category}>
-          <h3 className={styles.categoryTitle}>// {cat}</h3>
+          <h3 className={styles.categoryTitle}>{cat}</h3>
           <div className={styles.grid}>
             {ITEMS.filter((i) => i.category === cat).map((item) => {
               const isOwned = owned.has(item.id);
