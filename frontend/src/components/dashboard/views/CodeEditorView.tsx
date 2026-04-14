@@ -58,7 +58,7 @@ export function CodeEditorView({
     message: string;
   } | null>(null);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [descOpen, setDescOpen] = useState(false);
+  const [descOpen, setDescOpen] = useState(true);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
 
