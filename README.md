@@ -1,31 +1,53 @@
-# NeonCode - Cyberpunk AI Coding Platform
+# NeonCode
 
-An AI-driven coding challenge platform with a Cyberpunk 2077 aesthetic and deep RPG elements.
+AI-powered coding challenge platform with a cyberpunk-inspired design.
 
-## Tech Stack
+## Project Structure
 
-- **Frontend:** React + TypeScript (Vite)
-- **Testing:** Vitest + React Testing Library
-- **CI/CD:** GitHub Actions (lint, test, build on every PR)
+```
+NeonCode/
+├── frontend/   # React + TypeScript (Vite)
+├── backend/    # Express + Groq AI
+└── .github/    # CI workflows
+```
 
 ## Getting Started
 
+### Frontend
 ```bash
+cd frontend
 npm install
 npm run dev
 ```
 
+### Backend
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+The backend requires a `.env` file in the project root with your Groq API key:
+```
+GROQ_API_KEY=your_key_here
+```
+
+**Note:** The frontend works without the backend (offline mode with pre-built challenges). The backend enables AI-generated challenges, hints, and code evaluation.
+
 ## Scripts
 
+### Frontend
 | Command              | Description               |
 | -------------------- | ------------------------- |
 | `npm run dev`        | Start dev server          |
 | `npm run build`      | Type-check and build      |
 | `npm run lint`       | Run ESLint                |
 | `npm test`           | Run tests                 |
-| `npm run test:watch` | Run tests in watch mode   |
 | `npm run format`     | Format code with Prettier |
 
-## Branch Strategy
-
-Each feature gets its own branch (`feat/landing-page`, `feat/code-editor`, etc.) and is merged to `main` via PR with CI checks passing.
+### Backend
+| Command          | Description          |
+| ---------------- | -------------------- |
+| `npm run dev`    | Start dev server     |
+| `npm run build`  | Compile TypeScript   |
+| `npm start`      | Run compiled server  |
