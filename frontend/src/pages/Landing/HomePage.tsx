@@ -9,7 +9,7 @@ import { CallToAction } from '../../components/landing/CallToAction';
 import { Footer } from '../../components/landing/Footer';
 import styles from './HomePage.module.css';
 
-type Page = 'home' | 'register' | 'main';
+type Page = 'home' | 'register' | 'login' | 'main';
 
 interface HomePageProps {
   onNavigate: (page: Page) => void;

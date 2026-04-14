@@ -4,12 +4,13 @@ import { LoginForm } from '../../components/auth/LoginForm';
 import styles from './RegistrationPage.module.css';
 
 interface RegistrationPageProps {
+  initialTab?: 'signup' | 'login';
   onBack: () => void;
   onLogin: (username?: string) => void;
 }
 
-export function RegistrationPage({ onBack, onLogin }: RegistrationPageProps) {
-  const [activeTab, setActiveTab] = useState<'signup' | 'login'>('signup');
+export function RegistrationPage({ initialTab = 'signup', onBack, onLogin }: RegistrationPageProps) {
+  const [activeTab, setActiveTab] = useState<'signup' | 'login'>(initialTab);
 
   return (
     <div className={styles.page}>
@@ -20,7 +21,7 @@ export function RegistrationPage({ onBack, onLogin }: RegistrationPageProps) {
 
         <div className={styles.card}>
           <h1 className={styles.logo}>NEONCODE</h1>
-          <p className={styles.tagline}>// Enter the network</p>
+          <p className={styles.tagline}>Welcome back</p>
 
           <div className={styles.tabs}>
             <button

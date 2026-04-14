@@ -4,7 +4,7 @@ import { HomePage } from './pages/Landing/HomePage';
 import { RegistrationPage } from './pages/Registration/RegistrationPage';
 import { MainPage } from './pages/Main/MainPage';
 
-type Page = 'home' | 'register' | 'main';
+type Page = 'home' | 'register' | 'login' | 'main';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -19,6 +19,15 @@ function App() {
     case 'register':
       return (
         <RegistrationPage
+          initialTab="signup"
+          onBack={() => setCurrentPage('home')}
+          onLogin={handleLogin}
+        />
+      );
+    case 'login':
+      return (
+        <RegistrationPage
+          initialTab="login"
           onBack={() => setCurrentPage('home')}
           onLogin={handleLogin}
         />

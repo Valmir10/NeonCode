@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './HeroSection.module.css';
 
-type Page = 'home' | 'register' | 'main';
+type Page = 'home' | 'register' | 'login' | 'main';
 
 const ROTATING_WORDS = [
   'Solve challenges',
@@ -49,7 +49,7 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
         </button>
         <button
           className={styles.btnSecondary}
-          onClick={() => onNavigate('register')}
+          onClick={() => onNavigate('login')}
         >
           Login
         </button>
